@@ -1,7 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1. КАРТА
-    const map = L.map('map', { attributionControl: false }).setView([53.0276, 27.5597], 14);
+    const map = L.map('map', { 
+        attributionControl: false,
+        zoomControl: true 
+    }).setView([53.0276, 27.5597], 14);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     const markersGroup = L.markerClusterGroup({
@@ -9,22 +12,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     map.addLayer(markersGroup);
 
-    // 2. ДАННЫЕ
     const attractionsData = {
         "type": "FeatureCollection",
         "features": [
             { "type": "Feature", "properties": { "ID": 1, "NAME": "Часовня Святой Варвары", "DESCRIPTION": "Часовня Святой Варвары – одна из красивейших архитектурных достопримечательностей города Слуцка. Она находится у моста через реку Случь по улице М. Богдановича и привлекает внимание приезжих гостей и туристов. С часовни Святой Варвары открывается красивый вид на город и на соседний культурно-значимый объект Слуцка – памятник Софии Слуцкой.", "IMAGES_DIR": "images/varvara_chapel", "IMAGES_COUNT": 4, "AUDIO": "audio/varvara_chapel.mp3", "VIDEO": "video/varvara_chapel.mp4", "TYPE": "chapel" }, "geometry": { "type": "Point", "coordinates": [27.55419, 53.02608] } },
-            { "type": "Feature", "properties": { "ID": 2, "NAME": "Памятник войнам-освободителям", "DESCRIPTION": "Впечатляющий мемориал изображает советского солдата — израненного молодого мужчину, который рвётся в последний бой. За его спиной развевается красное знамя. Скульптура выполнена из бронзы и помещена на тумбу из красного гранита. По окружности площади установлены доски с именами павших слутчан. От мемориала тянутся аллеи со стелами, которые выстраиваются в острый гребень.", "IMAGES_DIR": "images/monument_soldier", "IMAGES_COUNT": 3, "AUDIO": "audio/monument_soldier.mp3", "VIDEO": "video/monument_soldier.mp4", "TYPE": "monument" }, "geometry": { "type": "Point", "coordinates": [27.55397, 53.02730] } },
-            { "type": "Feature", "properties": { "ID": 3, "NAME": "Памятник Софии Слуцкой", "DESCRIPTION": "Памятник Софии Слуцкой был создан скульптором Михаилом Иньковым и архитектором Николаем Лукьянчиком. Памятник представляет собой отлитую из бронзы фигуру святой, а также высокую арку, находящуюся у княжны за спиной, состоящую из трех «лепестков». Важной деталью в композиции является жест левой руки Софии.", "IMAGES_DIR": "images/monument_sofia", "IMAGES_COUNT": 5, "AUDIO": "audio/monument_sofia.mp3", "VIDEO": "video/monument_sofia.mp4", "TYPE": "monument" }, "geometry": { "type": "Point", "coordinates": [27.55375, 53.02630] } },
-            { "type": "Feature", "properties": { "ID": 4, "NAME": "Макет храма чудотворца", "DESCRIPTION": "Интересный памятный знак был установлен в 2019 году. Это бронзовый макет древнего храма в честь Николая Чудотворца. Он был основан в XII столетии. В 1898 году его перестроили в камне, в неовизантийском стиле. Несмотря на реконструкцию, в храме сохранилась усыпальница князей Олельковичей и Радзивиллов. В 1934 г. храм был взорван.", "IMAGES_DIR": "images/model_of_temple", "IMAGES_COUNT": 4, "AUDIO": "audio/model_of_temple.mp3", "VIDEO": "video/model_of_temple.mp4", "TYPE": "monument" }, "geometry": { "type": "Point", "coordinates": [27.55400, 53.02659] } },
-            { "type": "Feature", "properties": { "ID": 5, "NAME": "Дом Культуры", "DESCRIPTION": "Дом культуры - здание в Слуцке, расположенное в центре города, в сквере по ул. Большая Горка. Строительство дома культуры началось в конце 1930-х гг. по немного увеличенному проекту Д. Ф. Фридмана, но к началу Великой Отечественной войны не успели открыть и достраивали уже к 1947 году. Памятник архитектуры неоклассицизма.", "IMAGES_DIR": "images/house_of_culture", "IMAGES_COUNT": 3, "AUDIO": "audio/house_of_culture.mp3", "VIDEO": "video/house_of_culture.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.55563, 53.02807] } },
-            { "type": "Feature", "properties": { "ID": 6, "NAME": "Музей слуцкие пояса", "DESCRIPTION": "Музей истории Слуцких поясов хранит в себе великое национальное наследие и прекрасный образец декоративно-прикладного искусства, который стал не только историческим культурным символом, но и современным брендом Беларуси – слуцкие пояса. Эта реликвия являлась дорогим атрибутом мужского гардероба.", "IMAGES_DIR": "images/museum_of_belts", "IMAGES_COUNT": 5, "AUDIO": "audio/museum_of_belts.mp3", "VIDEO": "video/museum_of_belts.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.55531, 53.02443] } },
-            { "type": "Feature", "properties": { "ID": 7, "NAME": "Гимназия №1", "DESCRIPTION": "Гимназия №1 знаменита не только в Слуцке, но и во всей Беларуси. Она была основана в 1617 году князем Янушем Радзивиллом, что делает её одним из старейших учебных заведений в Республике. В слуцкой гимназии обучались и преподавали многие знаменитые учёные, политики и деятели искусства.", "IMAGES_DIR": "images/gymnasium", "IMAGES_COUNT": 4, "AUDIO": "audio/gymnasium.mp3", "VIDEO": "video/gymnasium.mp4", "TYPE": "school" }, "geometry": { "type": "Point", "coordinates": [27.55914, 53.02604] } },
-            { "type": "Feature", "properties": { "ID": 8, "NAME": "Памятник Анастасии Слуцкой", "DESCRIPTION": "Памятник Анастасии Слуцкой в Слуцке – это дань памяти мужеству и отваге этой хрупкой физически, но крепкой духом девушки. Перед нами она предстаёт, держа в руках длинный меч, что говорит о готовности защищать свои земли от набегов врагов. Торжественное открытие монумента приурочили к 900-летию Слуцка.", "IMAGES_DIR": "images/monument_anastasia", "IMAGES_COUNT": 3, "AUDIO": "audio/monument_anastasia.mp3", "VIDEO": "video/monument_anastasia.mp4", "TYPE": "monument" }, "geometry": { "type": "Point", "coordinates": [27.55522, 53.02768] } },
-            { "type": "Feature", "properties": { "ID": 9, "NAME": "Краеведческий музей", "DESCRIPTION": "Слуцкий краеведческий музей расположен в Доме бывшего дворянского собрания, построенного в конце XVIII — начале XIX веков. Согласно источникам, первоначально оно было частным домом барона Фёдора Шталя (Сталя). На сегодняшний день музей имеет в наличии более 32 тыс. музейных предметов основного фонда.", "IMAGES_DIR": "images/local_history_museum", "IMAGES_COUNT": 3, "AUDIO": "audio/local_history_museum.mp3", "VIDEO": "video/local_history_museum.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54690, 53.02375] } },
-            { "type": "Feature", "properties": { "ID": 10, "NAME": "Бывшая почтовая станция", "DESCRIPTION": "Почтовая станция располагалась в великолепном здании начала XIX века. Его украшали белоснежные колонны, каменные наличники и карнизы. Внутри были просторные, светлые помещения с высокими потолками. Почтовая станция пережила революцию, Гражданскую и Великую Отечественную войны.", "IMAGES_DIR": "images/post_office", "IMAGES_COUNT": 5, "AUDIO": "audio/post_office.mp3", "VIDEO": "video/post_office.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54511, 53.02254] } },
-            { "type": "Feature", "properties": { "ID": 11, "NAME": "Духовное училище", "DESCRIPTION": "Духовное училище было построено в XIX веке. Это двухэтажное каменное здание в стиле классицизма. Из подлинных элементов декора сохранились строгое обрамление окон, угловые пилястры, межэтажный пояс и фронтоны. В настоящее время здание занимает медицинский колледж.", "IMAGES_DIR": "images/theological_school", "IMAGES_COUNT": 6, "AUDIO": "audio/theological_school.mp3", "VIDEO": "video/theological_school.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54584, 53.01792] } },
-            { "type": "Feature", "properties": { "ID": 12, "NAME": "Собор святого Михаила", "DESCRIPTION": "Церковь во имя Архистратига Михаила — единственное сохранившееся здание из многочисленных слуцких святынь и единственный дошедший до нас пример Слуцкой школы полесского деревянного церковного зодчества XVIII века, не имеющий прямых аналогов в Беларуси. Здание было двухсрубным, неокрашенным.", "IMAGES_DIR": "images/michael_cathedral", "IMAGES_COUNT": 3, "AUDIO": "audio/michael_cathedral.mp3", "VIDEO": "video/michael_cathedral.mp4", "TYPE": "chapel" }, "geometry": { "type": "Point", "coordinates": [27.57840, 53.03068] } }
+            { "type": "Feature", "properties": { "ID": 2, "NAME": "Памятник войнам-освободителям", "DESCRIPTION": "Впечатляющий мемориал изображает советского солдата — израненного молодого мужчину, который рвётся в последний бой. За его спиной развевается красное знамя. Скульптура выполнена из бронзы и помещена на тумбу из красного гранита. По окружности площади установлены доски с именами павших слутчан.", "IMAGES_DIR": "images/monument_soldier", "IMAGES_COUNT": 3, "AUDIO": "audio/monument_soldier.mp3", "VIDEO": "video/monument_soldier.mp4", "TYPE": "monument" }, "geometry": { "type": "Point", "coordinates": [27.55397, 53.02730] } },
+            { "type": "Feature", "properties": { "ID": 3, "NAME": "Памятник Софии Слуцкой", "DESCRIPTION": "Памятник Софии Слуцкой был создан скульптором Михаилом Иньковым и архитектором Николаем Лукьянчиком. Памятник представляет собой отлитую из бронзы фигуру святой, а также высокую арку за спиной.", "IMAGES_DIR": "images/monument_sofia", "IMAGES_COUNT": 5, "AUDIO": "audio/monument_sofia.mp3", "VIDEO": "video/monument_sofia.mp4", "TYPE": "monument" }, "geometry": { "type": "Point", "coordinates": [27.55375, 53.02630] } },
+            { "type": "Feature", "properties": { "ID": 4, "NAME": "Макет храма чудотворца", "DESCRIPTION": "Бронзовый макет древнего храма в честь Николая Чудотворца. Он был основан в XII столетии. В 1934 г. храм был взорван.", "IMAGES_DIR": "images/model_of_temple", "IMAGES_COUNT": 4, "AUDIO": "audio/model_of_temple.mp3", "VIDEO": "video/model_of_temple.mp4", "TYPE": "monument" }, "geometry": { "type": "Point", "coordinates": [27.55400, 53.02659] } },
+            { "type": "Feature", "properties": { "ID": 5, "NAME": "Дом Культуры", "DESCRIPTION": "Дом культуры - здание в Слуцке, расположенное в сквере по ул. Большая Горка. Памятник архитектуры неоклассицизма.", "IMAGES_DIR": "images/house_of_culture", "IMAGES_COUNT": 3, "AUDIO": "audio/house_of_culture.mp3", "VIDEO": "video/house_of_culture.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.55563, 53.02807] } },
+            { "type": "Feature", "properties": { "ID": 6, "NAME": "Музей Слуцкие пояса", "DESCRIPTION": "Музей истории Слуцких поясов хранит в себе великое национальное наследие и прекрасный образец декоративно-прикладного искусства.", "IMAGES_DIR": "images/museum_of_belts", "IMAGES_COUNT": 5, "AUDIO": "audio/museum_of_belts.mp3", "VIDEO": "video/museum_of_belts.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.55531, 53.02443] } },
+            { "type": "Feature", "properties": { "ID": 7, "NAME": "Гимназия №1", "DESCRIPTION": "Основана в 1617 году князем Янушем Радзивиллом, что делает её одним из старейших учебных заведений в Республике.", "IMAGES_DIR": "images/gymnasium", "IMAGES_COUNT": 4, "AUDIO": "audio/gymnasium.mp3", "VIDEO": "video/gymnasium.mp4", "TYPE": "school" }, "geometry": { "type": "Point", "coordinates": [27.55914, 53.02604] } },
+            { "type": "Feature", "properties": { "ID": 8, "NAME": "Памятник Анастасии Слуцкой", "DESCRIPTION": "Памятник Анастасии Слуцкой в Слуцке – это дань памяти мужеству и отваге этой хрупкой физически, но крепкой духом девушки.", "IMAGES_DIR": "images/monument_anastasia", "IMAGES_COUNT": 3, "AUDIO": "audio/monument_anastasia.mp3", "VIDEO": "video/monument_anastasia.mp4", "TYPE": "monument" }, "geometry": { "type": "Point", "coordinates": [27.55522, 53.02768] } },
+            { "type": "Feature", "properties": { "ID": 9, "NAME": "Краеведческий музей", "DESCRIPTION": "Слуцкий краеведческий музей расположен в Доме бывшего дворянского собрания, построенного в конце XVIII века.", "IMAGES_DIR": "images/local_history_museum", "IMAGES_COUNT": 3, "AUDIO": "audio/local_history_museum.mp3", "VIDEO": "video/local_history_museum.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54690, 53.02375] } },
+            { "type": "Feature", "properties": { "ID": 10, "NAME": "Бывшая почтовая станция", "DESCRIPTION": "Почтовая станция располагалась в великолепном здании начала XIX века. Его украшали белоснежные колонны.", "IMAGES_DIR": "images/post_office", "IMAGES_COUNT": 5, "AUDIO": "audio/post_office.mp3", "VIDEO": "video/post_office.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54511, 53.02254] } },
+            { "type": "Feature", "properties": { "ID": 11, "NAME": "Духовное училище", "DESCRIPTION": "Духовное училище было построено в XIX веке. В настоящее время здание занимает медицинский колледж.", "IMAGES_DIR": "images/theological_school", "IMAGES_COUNT": 6, "AUDIO": "audio/theological_school.mp3", "VIDEO": "video/theological_school.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54584, 53.01792] } },
+            { "type": "Feature", "properties": { "ID": 12, "NAME": "Собор святого Михаила", "DESCRIPTION": "Уникальный сохранившийся пример Слуцкой школы полесского деревянного церковного зодчества XVIII века.", "IMAGES_DIR": "images/michael_cathedral", "IMAGES_COUNT": 3, "AUDIO": "audio/michael_cathedral.mp3", "VIDEO": "video/michael_cathedral.mp4", "TYPE": "chapel" }, "geometry": { "type": "Point", "coordinates": [27.57840, 53.03068] } }
         ]
     };
 
@@ -40,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Рендер объектов
     L.geoJSON(attractionsData, {
         pointToLayer: (f, latlng) => {
             const colorClass = getPinColor(f.properties.TYPE);
@@ -66,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Маршрут
     document.getElementById('buildRoute').onclick = () => {
         if (selectedPoints.length < 2) return alert('Выберите хотя бы 2 объекта!');
         if (routingControl) map.removeControl(routingControl);
@@ -81,11 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         routingControl.on('routesfound', (e) => {
             animationPoints = e.routes[0].coordinates;
-            stops = selectedPoints.map(p => ({ 
-                index: findClosestIndex(animationPoints, p.latlng), 
-                properties: p.properties 
-            })).sort((a, b) => a.index - b.index);
-            
+            stops = selectedPoints.map(p => ({ index: findClosestIndex(animationPoints, p.latlng), properties: p.properties })).sort((a, b) => a.index - b.index);
             currentIndex = 0; segmentProgress = 0; isWaitingForClose = true;
             window.openDetails(stops[0].properties);
             startCarAnimation();
@@ -95,11 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function startCarAnimation() {
         if (carMarker) map.removeLayer(carMarker);
         carMarker = L.marker([animationPoints[0].lat, animationPoints[0].lng], {
-            icon: L.divIcon({ 
-                className: 'car-icon-container', 
-                html: `<img src="img/car.png" id="car-img" style="width:36px;height:36px;">`, 
-                iconSize: [36, 36], iconAnchor: [18, 18] 
-            })
+            icon: L.divIcon({ className: 'car-icon-container', html: `<img src="img/car.png" id="car-img" style="width:36px;height:36px;">`, iconSize: [36, 36], iconAnchor: [18, 18] })
         }).addTo(map);
         animate();
     }
@@ -107,21 +99,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function animate(time) {
         if (!animationPoints.length || currentIndex >= animationPoints.length - 1) return;
         if (isPaused || isWaitingForClose) { requestAnimationFrame(animate); return; }
-
         const start = animationPoints[currentIndex], end = animationPoints[currentIndex + 1];
         segmentProgress += 0.07; 
-
         if (segmentProgress >= 1) {
             segmentProgress = 0; currentIndex++;
             const stop = stops.find(s => s.index === currentIndex);
             if (stop) { isWaitingForClose = true; window.openDetails(stop.properties); }
         }
-
         const lat = start.lat + (end.lat - start.lat) * segmentProgress;
         const lng = start.lng + (end.lng - start.lng) * segmentProgress;
         const pos = [lat, lng];
         if (carMarker) carMarker.setLatLng(pos);
-
         if (followCar && time - lastPanTime > 40) {
             map.panTo(pos, { animate: false });
             lastPanTime = time;
