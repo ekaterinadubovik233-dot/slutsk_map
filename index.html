@@ -2,10 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <!-- Запрет масштабирования для мобилок -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Культурное наследие Слуцка</title>
-    <!-- Библиотеки -->
+    <title>Слуцк: Культурное наследие</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
@@ -16,8 +14,9 @@
 <header class="header">
     <div class="header-content">
         <div class="header-left">
-            <div class="logo-medallion">
-                <img src="img/logo-slutsk.png" alt="Лого" class="main-logo">
+            <!-- НОВЫЙ МИНИМАЛИСТИЧНЫЙ ЛОГОТИП -->
+            <div class="logo-new">
+                <span>С</span>
             </div>
             <div class="title-group">
                 <h1 class="main-title">КУЛЬТУРНОЕ НАСЛЕДИЕ</h1>
@@ -25,7 +24,7 @@
             </div>
         </div>
         <div class="header-search-container">
-            <input type="text" id="pcSearch" placeholder="Найти достопримечательность...">
+            <input type="text" id="pcSearch" placeholder="Найти объект...">
         </div>
     </div>
 </header>
@@ -59,14 +58,21 @@
     <aside class="details-panel" id="detailsPanel">
         <button class="details-close" id="closeDetailsBtn">×</button>
         <h2 id="details-title"></h2>
-        <div class="details-gallery" id="details-gallery"></div>
+        
+        <!-- ФИКСИРОВАННАЯ ГАЛЕРЕЯ -->
+        <div class="gallery-container">
+            <div class="details-gallery" id="details-gallery"></div>
+        </div>
+
         <div class="audio-mini">
             <span class="audio-label">🎧 Аудиогид:</span>
             <audio id="details-audio" controls></audio>
         </div>
+
         <div class="details-text-box">
             <p id="details-description"></p>
         </div>
+        
         <button id="openVideoBtn" class="video-btn">🎬 СМОТРЕТЬ ВИДЕО</button>
     </aside>
 
@@ -74,7 +80,9 @@
         <div class="modal-content">
             <span class="close-modal" id="closeVideoBtn">&times;</span>
             <h3 id="video-modal-title"></h3>
-            <div class="video-container"><video id="details-video" controls></video></div>
+            <div class="video-fix-container">
+                <video id="details-video" controls playsinline></video>
+            </div>
         </div>
     </div>
 
