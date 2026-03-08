@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Слуцк: Культурное наследие</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="header-content">
+        <div class="header-left">
+            <img src="img/logo-slutsk.png" alt="Лого" class="main-logo">
+            <div class="title-group">
+                <h1 class="main-title">КУЛЬТУРНОЕ НАСЛЕДИЕ</h1>
+                <h2 class="sub-title">ГОРОДА СЛУЦКА</h2>
+            </div>
+        </div>
+        
+        <div class="header-search-container">
+            <input type="text" id="pcSearch" placeholder="Найти достопримечательность...">
+        </div>
+    </div>
+</header>
+
+<main class="app">
+    <button id="toggleSidebar" class="mobile-menu-btn">☰ Список</button>
+
+    <aside class="route-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Объекты</h3>
+            <button id="closeSidebar" class="mobile-close-btn">×</button>
+        </div>
+        <div class="sidebar-search-mobile">
+            <input type="text" id="mobileSearch" placeholder="Поиск...">
+        </div>
+        <div class="sidebar-scroll"><ul id="route-list"></ul></div>
+        <div class="sidebar-controls">
+            <button id="buildRoute" class="btn-main">ПОСТРОИТЬ МАРШРУТ</button>
+            <button id="clearRoute" class="btn-sub">Очистить</button>
+        </div>
+    </aside>
+
+    <section class="map-wrapper">
+        <div id="map"></div>
+        <div class="map-controls">
+            <button id="pauseCar">⏸ Пауза</button>
+            <button id="followCar">🎥 Слежение: ВКЛ</button>
+        </div>
+    </section>
+
+    <aside class="details-panel" id="detailsPanel">
+        <button class="details-close" id="closeDetailsBtn">×</button>
+        <h2 id="details-title"></h2>
+        <div class="details-gallery" id="details-gallery"></div>
+        
+        <div class="audio-mini">
+            <span class="audio-label">🎧 Аудиогид:</span>
+            <audio id="details-audio" controls></audio>
+        </div>
+
+        <div class="details-text-box">
+            <p id="details-description"></p>
+        </div>
+        
+        <button id="openVideoBtn" class="video-btn">🎬 СМОТРЕТЬ ВИДЕО</button>
+    </aside>
+
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeVideoBtn">&times;</span>
+            <h3 id="video-modal-title"></h3>
+            <video id="details-video" controls></video>
+        </div>
+    </div>
+
+    <div id="imageModal" class="image-zoom-modal">
+        <span class="close-zoom" id="closeZoomBtn">&times;</span>
+        <button class="nav-img prev" onclick="changeImage(-1)">&#10094;</button>
+        <img id="fullImage">
+        <button class="nav-img next" onclick="changeImage(1)">&#10095;</button>
+    </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
+<script src="js/map.js"></script>
+
+</body>
+</html>
+
