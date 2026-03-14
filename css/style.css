@@ -3,8 +3,18 @@ html, body { height: 100%; width: 100%; margin: 0; padding: 0; overflow: hidden;
 * { box-sizing: border-box; }
 body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
 
-/* УДАЛЯЕМ МУСОРНУЮ ПАНЕЛЬ С УЛИЦАМИ */
-.leaflet-routing-container, .leaflet-routing-container-hide { display: none !important; opacity: 0 !important; pointer-events: none !important; }
+/* ЖЕСТКОЕ УДАЛЕНИЕ НАВИГАЦИИ (УЛИЦЫ И СТРЕЛКИ) */
+.leaflet-routing-container, 
+.leaflet-routing-container-hide, 
+.leaflet-routing-alternatives-container,
+.leaflet-bar.leaflet-routing-alt { 
+    display: none !important; 
+    visibility: hidden !important; 
+    width: 0 !important; 
+    height: 0 !important; 
+    opacity: 0 !important; 
+    pointer-events: none !important; 
+}
 
 /* ШАПКА */
 .header { height: 75px; background: white; border-bottom: 3px solid var(--accent); display: flex; align-items: center; z-index: 2000; position: relative; }
@@ -18,13 +28,16 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
 
 .app { display: flex; height: calc(100% - 75px); width: 100%; position: relative; }
 
-/* САЙДБАР */
+/* САЙДБАР (СПИСОК) */
 .route-sidebar { width: 280px; height: 100%; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; padding: 15px; z-index: 1001; }
-#route-list { list-style: none; padding: 0; margin: 0; }
+#route-list { list-style: none !important; padding: 0 !important; margin: 0; }
 #route-list li { padding: 10px 5px; border-bottom: 1px solid #f5f5f5; display: flex; align-items: center; font-size: 13.5px; }
-#route-list input { margin-right: 10px; width: 18px; height: 18px; flex-shrink: 0; }
+#route-list input { margin-right: 10px; width: 18px; height: 18px; flex-shrink: 0; cursor: pointer; }
 .btn-main { background: var(--primary); color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
 .btn-sub { background: #f0f0f0; color: #777; width: 100%; padding: 10px; border: none; border-radius: 8px; margin-top: 5px; cursor: pointer; }
+
+/* УБИРАЕМ КРЕСТИК СПИСКА НА ПК */
+.route-sidebar .mobile-close-btn { display: none !important; }
 
 /* КАРТА */
 .map-wrapper { flex-grow: 1; height: 100%; position: relative; z-index: 1; }
@@ -39,10 +52,8 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
 .details-gallery { display: flex; gap: 8px; overflow-x: auto; margin: 10px 0; min-height: 85px; flex-shrink: 0; }
 .details-gallery img { height: 80px; border-radius: 8px; flex-shrink: 0; cursor: zoom-in; }
 
-/* ТЕКСТ ОПИСАНИЯ */
 .details-text-box { flex-grow: 1; overflow-y: auto; margin-bottom: 10px; padding-right: 5px; }
 #details-description { font-size: 14.5px; line-height: 1.6; color: #333; text-align: justify; margin: 0; }
-
 .video-btn { background: var(--primary); color: var(--accent); width: 100%; padding: 16px; border: none; border-radius: 8px; font-weight: bold; flex-shrink: 0; cursor: pointer; }
 
 /* МОБИЛЬНАЯ ВЕРСИЯ */
@@ -54,16 +65,20 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
     .sub-title { font-size: 0.75rem; }
     .app { height: calc(100% - 65px); display: block; }
     .map-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    
+    /* Кнопка списка и крестик на мобилках */
     .mobile-menu-btn { display: block !important; position: absolute; top: 12px; left: 12px; z-index: 1500; background: white; border: 2px solid var(--primary); padding: 7px 15px; border-radius: 20px; font-weight: bold; font-size: 13px; }
+    .route-sidebar .mobile-close-btn { display: block !important; font-size: 35px; background: none; border: none; color: var(--primary); cursor: pointer; }
+    
     .route-sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; z-index: 5000; transition: 0.4s; }
     .route-sidebar.active { left: 0; }
     .details-panel { width: 100%; height: 65%; bottom: -100%; right: 0; top: auto; border-radius: 20px 20px 0 0; z-index: 6000; }
     .details-panel.active { bottom: 0; }
 }
 
-/* МОДАЛКИ (Самый верх) */
-.modal, .image-zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; }
-.modal-content { background: white; width: 92%; max-width: 500px; margin: 50px auto; padding: 20px; border-radius: 15px; position: relative; z-index: 10000; }
+/* МОДАЛКИ */
+.modal, .image-zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9000; }
+.modal-content { background: white; width: 92%; max-width: 500px; margin: 50px auto; padding: 20px; border-radius: 15px; position: relative; z-index: 9001; }
 .video-fix-container { width: 100%; background: #000; border-radius: 8px; overflow: hidden; }
 #details-video { width: 100%; max-height: 60vh; display: block; object-fit: contain; }
 .close-modal { position: absolute; top: -45px; right: 0; font-size: 45px; color: white; cursor: pointer; }
@@ -71,8 +86,6 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
 #fullImage { max-width: 95%; max-height: 85%; border: 3px solid white; border-radius: 5px; }
 .nav-img { position: absolute; top: 50%; color: white; font-size: 50px; background: none; border: none; padding: 20px; cursor: pointer; transition: 0.3s; }
 .close-zoom { position: absolute; top: 20px; right: 20px; color: white; font-size: 45px; cursor: pointer; }
-.prev { left: 0; } .next { right: 0; }
-
 .custom-pin { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50% 50% 50% 0; border: 2px solid white; transform: rotate(-45deg); }
 .custom-pin img { width: 20px; height: 20px; transform: rotate(45deg); filter: brightness(0) invert(1); }
 .pin-chapel { background: #2c5282; } .pin-monument { background: #9b2c2c; } .pin-museum { background: #b7791f; } .pin-school { background: #276749; }
