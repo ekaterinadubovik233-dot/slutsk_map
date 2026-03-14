@@ -1,15 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // 1. КАРТА
     const map = L.map('map', { attributionControl: false }).setView([53.0276, 27.5597], 14);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    const markersGroup = L.markerClusterGroup({
-        showCoverageOnHover: false, disableClusteringAtZoom: 13, spiderfyOnMaxZoom: true
-    });
+    const markersGroup = L.markerClusterGroup({ showCoverageOnHover: false, disableClusteringAtZoom: 13, spiderfyOnMaxZoom: true });
     map.addLayer(markersGroup);
 
-    // 2. ДАННЫЕ
     const attractionsData = {
         "type": "FeatureCollection",
         "features": [
@@ -69,10 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         routingControl = L.Routing.control({
             waypoints: selectedPoints.map(p => p.latlng),
             router: L.Routing.osrmv1({ serviceUrl: 'https://router.project-osrm.org/route/v1' }),
-            createMarker: () => null, 
-            addWaypoints: false,
-            draggableWaypoints: false,
-            show: false, 
+            createMarker: () => null, addWaypoints: false, show: false,
             lineOptions: { styles: [{ color: '#440118', weight: 6, opacity: 0.7 }] }
         }).addTo(map);
 
@@ -155,13 +147,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function filterList(searchValue) {
-        const val = searchValue.toLowerCase();
+    document.getElementById('pcSearch').oninput = (e) => {
+        const val = e.target.value.toLowerCase();
         document.querySelectorAll('#route-list li').forEach(li => { li.style.display = li.textContent.toLowerCase().includes(val) ? 'flex' : 'none'; });
-    }
+    };
 
-    document.getElementById('pcSearch').oninput = (e) => filterList(e.target.value);
-    document.getElementById('mobileSearch').oninput = (e) => filterList(e.target.value);
     document.getElementById('closeDetailsBtn').onclick = () => { document.getElementById('detailsPanel').classList.remove('active'); isWaitingForClose = false; };
     document.getElementById('openVideoBtn').onclick = () => {
         const v = document.getElementById('details-video');

@@ -27,11 +27,11 @@
 </header>
 
 <main class="app">
-    <button id="toggleSidebar" class="mobile-menu-btn">☰ Список объектов</button>
+    <button id="toggleSidebar" class="mobile-menu-btn">☰ Список</button>
 
     <aside class="route-sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h3>Объекты</h3>
+            <h3>Достопримечательности</h3>
             <button id="closeSidebar" class="mobile-close-btn">×</button>
         </div>
         
@@ -39,12 +39,10 @@
             <input type="text" id="mobileSearch" placeholder="Поиск...">
         </div>
 
-        <!-- ПРОКРУЧИВАЕМЫЙ СПИСОК -->
         <div class="sidebar-scroll">
             <ul id="route-list"></ul>
         </div>
         
-        <!-- ФИКСИРОВАННЫЕ КНОПКИ -->
         <div class="sidebar-controls">
             <button id="buildRoute" class="btn-main">ПОСТРОИТЬ МАРШРУТ</button>
             <button id="clearRoute" class="btn-sub">Очистить всё</button>
@@ -70,7 +68,7 @@
     <div id="videoModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" id="closeVideoBtn">&times;</span>
-            <h3 id="video-modal-title"></h3>
+            <h3 id="video-modal-title" class="modal-title-centered"></h3>
             <div class="video-fix-container">
                 <video id="details-video" controls playsinline webkit-playsinline preload="auto"></video>
             </div>
