@@ -1,7 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // 1. ИНИЦИАЛИЗАЦИЯ (ЗУМ ВЫКЛЮЧЕН НА МОБИЛКАХ В CSS)
-    const map = L.map('map', { attributionControl: false }).setView([53.0276, 27.5597], 14);
+    // 1. Инициализация с плавным слежением
+    const map = L.map('map', { 
+        attributionControl: false, 
+        zoomControl: true,
+        scrollWheelZoom: true,
+        zoomAnimation: true,
+        markerZoomAnimation: true
+    }).setView([53.0276, 27.5597], 14);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     const markersGroup = L.markerClusterGroup({
@@ -9,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     map.addLayer(markersGroup);
 
-    // 2. ДАННЫЕ (ПОЛНЫЙ ТЕКСТ ДЛЯ ВСЕХ 12 ОБЪЕКТОВ)
+    // 2. ДАННЫЕ (ПОЛНЫЕ ОПИСАНИЯ)
     const attractionsData = {
         "type": "FeatureCollection",
         "features": [
@@ -19,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             { "type": "Feature", "properties": { "ID": 4, "NAME": "Макет храма чудотворца", "DESCRIPTION": "Интересный памятный знак был установлен в 2019 году. Это бронзовый макет древнего храма в честь Николая Чудотворца. Он был основан в XII столетии. В 1898 году его перестроили в камне, в неовизантийском стиле. Несмотря на реконструкцию, в храме сохранилась усыпальница князей Олельковичей и Радзивиллов. В 1934 г. храм был взорван. Макет укрывает от дождя бронзовая часовня. Она состоит из гранёного купола и античных колонн. Постаментом композиции служит тумба из красного гранита.", "IMAGES_DIR": "images/model_of_temple", "IMAGES_COUNT": 4, "VIDEO": "video/model_of_temple.mp4", "TYPE": "monument" }, "geometry": { "type": "Point", "coordinates": [27.55400, 53.02659] } },
             { "type": "Feature", "properties": { "ID": 5, "NAME": "Дом Культуры", "DESCRIPTION": "Дом культуры - здание в Слуцке, расположенное в центре города, в сквере по ул. Большая Горка. Строительство дома культуры началось в конце 1930-х гг. по немного увеличенному проекту Д. Ф. Фридмана, но к началу Великой Отечественной войны не успели открыть и достраивали уже к 1947 году. Памятник архитектуры неоклассицизма.", "IMAGES_DIR": "images/house_of_culture", "IMAGES_COUNT": 3, "VIDEO": "video/house_of_culture.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.55563, 53.02807] } },
             { "type": "Feature", "properties": { "ID": 6, "NAME": "Музей слуцкие пояса", "DESCRIPTION": "Музей истории Слуцких поясов хранит в себе великое национальное наследие и прекрасный образец декоративно-прикладного искусства, который стал не только историческим культурным символом, но и современным брендом Беларуси – слуцкие пояса. Эта реликвия являлась дорогим атрибутом мужского гардероба и указывала на материальный достаток владельца. ", "IMAGES_DIR": "images/museum_of_belts", "IMAGES_COUNT": 5, "VIDEO": "video/museum_of_belts.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.55531, 53.02443] } },
-            { "type": "Feature", "properties": { "ID": 7, "NAME": "Гимназия №1", "DESCRIPTION": "Гимназия №1 знаменита не только в Слуцке, но и во всей Беларуси. Она была основана в 1617 году князем Янушем Радзивиллом, что делает её одним из старейших учебных заведения в Республике. В слуцкой гимназии обучались и преподавали многие знаменитые учёные, политики и деятели искусства. Одним из самых выдающихся преподавателей является Рейнольд Адам. Он составил пособие по риторике, по которому в последствии обучался Михаил Ломоносов.", "IMAGES_DIR": "images/gymnasium", "IMAGES_COUNT": 4, "VIDEO": "video/gymnasium.mp4", "TYPE": "school" }, "geometry": { "type": "Point", "coordinates": [27.55914, 53.02604] } },
+            { "type": "Feature", "properties": { "ID": 7, "NAME": "Гимназия №1", "DESCRIPTION": "Гимназия №1 знаменита не только в Слуцке, но и во всей Беларуси. Она была основана в 1617 году князем Янушем Радзивиллом, что делает её одним из старейших учебных заведение в Республике. В слуцкой гимназии обучались и преподавали многие знаменитые учёные, политики и деятели искусства. Одним из самых выдающихся преподавателей является Рейнольд Адам. Он составил пособие по риторике, по которому в последствии обучался Михаил Ломоносов.", "IMAGES_DIR": "images/gymnasium", "IMAGES_COUNT": 4, "VIDEO": "video/gymnasium.mp4", "TYPE": "school" }, "geometry": { "type": "Point", "coordinates": [27.55914, 53.02604] } },
             { "type": "Feature", "properties": { "ID": 8, "NAME": "Памятник Анастасии Слуцкой", "DESCRIPTION": "Памятник Анастасии Слуцкой в Слуцке – это дань памяти мужеству и отваге этой хрупкой физически, но крепкой духом девушки. Перед нами она предстаёт, держа в руках длинный меч, что говорит о готовности защищать свои земли от набегов врагов. Авторами проекта уникального памятника выступали скульптор Сергей Оганов и архитектор Сергей Багласов. Памятник Анастасии Слуцкой представлен в виде четырехметровой скульптуры, состоящей из двух элементов – камня и бронзы. Торжественное открытие монумента приурочили к 900-летию Слуцка.", "IMAGES_DIR": "images/monument_anastasia", "IMAGES_COUNT": 3, "VIDEO": "video/monument_anastasia.mp4", "TYPE": "monument" }, "geometry": { "type": "Point", "coordinates": [27.55522, 53.02768] } },
             { "type": "Feature", "properties": { "ID": 9, "NAME": "Краеведческий музей", "DESCRIPTION": "Слуцкий краеведческий музей расположен в Доме бывшего дворянского собрания, построенного в конце XVIII — начале XIX веков. Согласно источникам, первоначально оно было частным домом барона Фёдора Шталя (Сталя), который в 1797 году был назначен городничим в городе Слуцке. На сегодняшний день Слуцкий краеведческий музей имеет в наличии более 32 тыс. музейных предметов основного фонда. ", "IMAGES_DIR": "images/local_history_museum", "IMAGES_COUNT": 3, "VIDEO": "video/local_history_museum.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54690, 53.02375] } },
             { "type": "Feature", "properties": { "ID": 10, "NAME": "Бывшая почтовая станция", "DESCRIPTION": "Почтовая станция располагалась в великолепном здании начала XIX века. Его украшали белоснежные колонны, каменные наличники и карнизы. Внутри были просторные, светлые помещения с высокими потолками. Почтовая станция пережила революцию, Гражданскую и Великую Отечественную войны. Лишь в 1980-х она перебралась в новое здание, а старое заняли различные магазины, которые находятся там и сейчас.", "IMAGES_DIR": "images/post_office", "IMAGES_COUNT": 5, "VIDEO": "video/post_office.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54511, 53.02254] } },
@@ -30,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let carMarker = null, routingControl = null, selectedPoints = [], animationPoints = [], stops = [];
     let currentIndex = 0, segmentProgress = 0, isPaused = false, followCar = true, isWaitingForClose = false, currentProps = null;
-    let currentImgIdx = 1, lastPanTime = 0;
+    let currentImgIdx = 1;
 
     function getPinColor(type) {
         switch(type) {
@@ -40,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Инициализация маркеров
     L.geoJSON(attractionsData, {
         pointToLayer: (f, latlng) => {
             const colorClass = getPinColor(f.properties.TYPE);
@@ -61,21 +68,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Маршрут
     document.getElementById('buildRoute').onclick = () => {
         if (selectedPoints.length < 2) return alert('Выберите хотя бы 2 объекта!');
-        
-        // Удаляем старый маршрут
         if (routingControl) map.removeControl(routingControl);
         if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('active');
 
-        // Создаем новый маршрут БЕЗ ПАНЕЛИ ТЕКСТА
         routingControl = L.Routing.control({
             waypoints: selectedPoints.map(p => p.latlng),
             router: L.Routing.osrmv1({ serviceUrl: 'https://router.project-osrm.org/route/v1' }),
             createMarker: () => null, 
             addWaypoints: false,
             draggableWaypoints: false,
-            show: false, // ФОРСИРОВАННОЕ СКРЫТИЕ
+            show: false, 
             lineOptions: { styles: [{ color: '#440118', weight: 6, opacity: 0.7 }] }
         }).addTo(map);
 
@@ -96,21 +101,25 @@ document.addEventListener('DOMContentLoaded', function() {
         animate();
     }
 
-    function animate(time) {
+    function animate() {
         if (!animationPoints.length || currentIndex >= animationPoints.length - 1) return;
         if (isPaused || isWaitingForClose) { requestAnimationFrame(animate); return; }
+        
         const start = animationPoints[currentIndex], end = animationPoints[currentIndex + 1];
-        segmentProgress += 0.07; 
+        segmentProgress += 0.05; // СТАБИЛЬНАЯ СКОРОСТЬ
+        
         if (segmentProgress >= 1) {
             segmentProgress = 0; currentIndex++;
             const stop = stops.find(s => s.index === currentIndex);
             if (stop) { isWaitingForClose = true; window.openDetails(stop.properties); }
         }
+        
         const lat = start.lat + (end.lat - start.lat) * segmentProgress;
         const lng = start.lng + (end.lng - start.lng) * segmentProgress;
         const pos = [lat, lng];
+        
         if (carMarker) carMarker.setLatLng(pos);
-        if (followCar && time - lastPanTime > 40) { map.panTo(pos, { animate: false }); lastPanTime = time; }
+        if (followCar) map.panTo(pos, { animate: true, duration: 0.1 });
         requestAnimationFrame(animate);
     }
 
@@ -150,6 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('fullImage').src = `${currentProps.IMAGES_DIR}/${currentImgIdx}.jpg`;
     };
 
+    // КЛАВИАТУРА И ТАЧ
     document.addEventListener('keydown', (e) => {
         if (document.getElementById('imageModal').style.display === 'flex') {
             if (e.key === 'ArrowLeft') changeImage(-1);
@@ -158,13 +168,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function filterList(searchValue) {
-        const val = searchValue.toLowerCase();
+    document.getElementById('pcSearch').oninput = (e) => {
+        const val = e.target.value.toLowerCase();
         document.querySelectorAll('#route-list li').forEach(li => { li.style.display = li.textContent.toLowerCase().includes(val) ? 'flex' : 'none'; });
-    }
+    };
 
-    document.getElementById('pcSearch').oninput = (e) => filterList(e.target.value);
-    document.getElementById('mobileSearch').oninput = (e) => filterList(e.target.value);
     document.getElementById('closeDetailsBtn').onclick = () => { document.getElementById('detailsPanel').classList.remove('active'); isWaitingForClose = false; };
     document.getElementById('openVideoBtn').onclick = () => {
         const v = document.getElementById('details-video');

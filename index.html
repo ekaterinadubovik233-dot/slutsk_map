@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Слуцк: Культурное наследие</title>
+    <title>Культурное наследие Слуцка</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
@@ -14,7 +14,7 @@
 <header class="header">
     <div class="header-content">
         <div class="header-left">
-            <img src="img/logo-slutsk.png" alt="Лого" class="main-logo">
+            <div class="logo-medallion-c"><span>С</span></div>
             <div class="title-group">
                 <h1 class="main-title">КУЛЬТУРНОЕ НАСЛЕДИЕ</h1>
                 <h2 class="sub-title">ГОРОДА СЛУЦКА</h2>
@@ -32,7 +32,6 @@
     <aside class="route-sidebar" id="sidebar">
         <div class="sidebar-header">
             <h3>Достопримечательности</h3>
-            <!-- Кнопка закрытия списка (только для мобилок) -->
             <button id="closeSidebar" class="mobile-close-btn">×</button>
         </div>
         <div class="sidebar-search-mobile">
@@ -57,29 +56,25 @@
         <button class="details-close" id="closeDetailsBtn">×</button>
         <h2 id="details-title"></h2>
         <div class="details-gallery" id="details-gallery"></div>
-        
-        <div class="details-text-box">
-            <p id="details-description"></p>
-        </div>
-        
+        <div class="details-text-box"><p id="details-description"></p></div>
         <button id="openVideoBtn" class="video-btn">🎬 СМОТРЕТЬ ВИДЕОГИД</button>
     </aside>
 
     <div id="videoModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" id="closeVideoBtn">&times;</span>
-            <h3 id="video-modal-title" style="margin-bottom:15px; color:#440118; font-size: 1.1rem;"></h3>
+            <h3 id="video-modal-title"></h3>
             <div class="video-fix-container">
-                <video id="details-video" controls playsinline></video>
+                <video id="details-video" controls playsinline webkit-playsinline preload="auto"></video>
             </div>
         </div>
     </div>
 
     <div id="imageModal" class="image-zoom-modal">
         <span class="close-zoom" id="closeZoomBtn">&times;</span>
-        <button class="nav-img prev" onclick="changeImage(-1)">&#10094;</button>
+        <div class="nav-zone left" onclick="changeImage(-1)"><span>&#10094;</span></div>
         <img id="fullImage">
-        <button class="nav-img next" onclick="changeImage(1)">&#10095;</button>
+        <div class="nav-zone right" onclick="changeImage(1)"><span>&#10095;</span></div>
     </div>
 </main>
 
