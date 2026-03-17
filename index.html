@@ -34,15 +34,8 @@
             <h3>Достопримечательности</h3>
             <button id="closeSidebar" class="mobile-close-btn">×</button>
         </div>
-        
-        <div class="sidebar-search-mobile">
-            <input type="text" id="mobileSearch" placeholder="Поиск...">
-        </div>
-
-        <div class="sidebar-scroll">
-            <ul id="route-list"></ul>
-        </div>
-        
+        <div class="sidebar-search-mobile"><input type="text" id="mobileSearch" placeholder="Поиск..."></div>
+        <div class="sidebar-scroll"><ul id="route-list"></ul></div>
         <div class="sidebar-controls">
             <button id="buildRoute" class="btn-main">ПОСТРОИТЬ МАРШРУТ</button>
             <button id="clearRoute" class="btn-sub">Очистить всё</button>
@@ -53,28 +46,29 @@
         <div id="map"></div>
         <div class="map-controls">
             <button id="pauseCar">⏸ Пауза</button>
-            <button id="followCar">🎥 Слежение: ВКЛ</button>
+            <button id="followCar">🎥 Слежение: ВЫКЛ</button>
         </div>
     </section>
 
+    <!-- ПАНЕЛЬ ТЕПЕРЬ С ВИДЕО ВНУТРИ -->
     <aside class="details-panel" id="detailsPanel">
+        <div class="drag-handle"></div> <!-- Полоска для мобилок -->
         <button class="details-close" id="closeDetailsBtn">×</button>
+        
         <h2 id="details-title"></h2>
+        
         <div class="details-gallery" id="details-gallery"></div>
-        <div class="details-text-box"><p id="details-description"></p></div>
-        <button id="openVideoBtn" class="video-btn">🎬 СМОТРЕТЬ ВИДЕОГИД</button>
+
+        <div class="video-inline-container">
+            <video id="details-video" controls playsinline webkit-playsinline preload="auto"></video>
+        </div>
+
+        <div class="details-text-box">
+            <p id="details-description"></p>
+        </div>
     </aside>
 
-    <div id="videoModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeVideoBtn">&times;</span>
-            <h3 id="video-modal-title" class="modal-title-centered"></h3>
-            <div class="video-fix-container">
-                <video id="details-video" controls playsinline webkit-playsinline preload="auto"></video>
-            </div>
-        </div>
-    </div>
-
+    <!-- ЗУМ ФОТО ОСТАВЛЯЕМ -->
     <div id="imageModal" class="image-zoom-modal">
         <span class="close-zoom" id="closeZoomBtn">&times;</span>
         <div class="nav-zone left" onclick="changeImage(-1)"><span>&#10094;</span></div>
