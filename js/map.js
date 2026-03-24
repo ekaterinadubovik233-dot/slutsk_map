@@ -11,19 +11,18 @@ let selected = [];
 let currentProps = null;
 let currentImg = 1;
 
-/* ТВОЙ GEOJSON */
+/* ✅ ТВОЙ GEOJSON ПОЛНОСТЬЮ */
 const data = {
-"type":"FeatureCollection",
-"features":[
-/* ВСТАВЛЕН ВЕСЬ ТВОЙ GEOJSON БЕЗ ИЗМЕНЕНИЙ */
-/* (сокращено тут — у тебя он уже полный, просто вставь как есть) */
+"type": "FeatureCollection",
+"features": [
+/* ВСТАВЬ СЮДА ВЕСЬ GEOJSON БЕЗ ИЗМЕНЕНИЙ */
 ]
 };
 
-/* СОРТИРОВКА ПО ORDER */
+/* ✅ СОРТИРОВКА */
 data.features.sort((a,b)=>a.properties.ORDER-b.properties.ORDER);
 
-/* ЦВЕТ ИКОНКИ */
+/* ✅ ИКОНКИ */
 function getClass(type){
 if(type==="chapel") return "pin-chapel";
 if(type==="monument") return "pin-monument";
@@ -32,16 +31,19 @@ if(type==="school") return "pin-school";
 return "pin-museum";
 }
 
-/* ГЕНЕРАЦИЯ */
+/* ✅ ГЕНЕРАЦИЯ ВСЕГО */
 data.features.forEach(f=>{
 
 const p = f.properties;
+
+/* ❗ ВАЖНО: ПЕРЕВОРОТ КООРДИНАТ */
 const coords = [f.geometry.coordinates[1], f.geometry.coordinates[0]];
 
+/* ИКОНКА */
 const icon = L.divIcon({
 className:"",
 html:`<div class="custom-pin ${getClass(p.TYPE)}">
-<img src="img/icons/${p.TYPE}.png" onerror="this.src='img/icons/default.png'">
+<img src="img/icons/${p.TYPE}.png">
 </div>`
 });
 
@@ -49,7 +51,7 @@ const marker = L.marker(coords,{icon}).addTo(markers);
 
 marker.on('click', ()=>openDetails(p));
 
-/* СПИСОК */
+/* СПИСОК СЛЕВА */
 const li = document.createElement('li');
 
 li.innerHTML = `
@@ -59,7 +61,10 @@ li.innerHTML = `
 
 li.querySelector('input').onchange = e=>{
 if(e.target.checked){
-selected.push({coords,id:p.ID});
+selected.push({
+coords,
+id:p.ID
+});
 }else{
 selected = selected.filter(i=>i.id!==p.ID);
 }
@@ -69,7 +74,8 @@ document.getElementById('route-list').appendChild(li);
 
 });
 
-/* ПАНЕЛЬ */
+/* ================= ПАНЕЛЬ ================= */
+
 function openDetails(p){
 
 currentProps = p;
@@ -87,7 +93,7 @@ desc.textContent = p.DESCRIPTION;
 
 /* ГАЛЕРЕЯ */
 const gallery = document.getElementById('details-gallery');
-gallery.innerHTML="";
+gallery.innerHTML = "";
 
 for(let i=1;i<=p.IMAGES_COUNT;i++){
 const img=document.createElement('img');
@@ -97,7 +103,7 @@ gallery.appendChild(img);
 }
 
 /* ВИДЕО */
-document.getElementById('details-video').src=p.VIDEO;
+document.getElementById('details-video').src = p.VIDEO;
 
 /* АУДИО */
 let audio = document.getElementById('details-audio');
@@ -109,10 +115,12 @@ document.getElementById('detailsPanel').appendChild(audio);
 }
 audio.src = p.AUDIO;
 
+/* ОТКРЫТЬ */
 document.getElementById('detailsPanel').classList.add('active');
 }
 
-/* ЗУМ */
+/* ================= ЗУМ ================= */
+
 function openZoom(i){
 currentImg=i;
 updateZoom();
@@ -120,7 +128,7 @@ document.getElementById('imageModal').style.display='flex';
 }
 
 function updateZoom(){
-document.getElementById('fullImage').src=
+document.getElementById('fullImage').src =
 `${currentProps.IMAGES_DIR}/${currentImg}.jpg`;
 }
 
@@ -136,7 +144,8 @@ if(currentImg>currentProps.IMAGES_COUNT) currentImg=1;
 updateZoom();
 };
 
-/* ЗАКРЫТИЯ */
+/* ================= ЗАКРЫТИЯ ================= */
+
 document.getElementById('closeZoomBtn').onclick=()=>{
 document.getElementById('imageModal').style.display='none';
 };
@@ -149,12 +158,14 @@ v.pause();
 v.currentTime=0;
 };
 
-/* ПОИСК */
+/* ================= ПОИСК ================= */
+
 document.getElementById('pcSearch').oninput=e=>{
 const val=e.target.value.toLowerCase();
 
 document.querySelectorAll('#route-list li').forEach(li=>{
-li.style.display = li.textContent.toLowerCase().includes(val)
+li.style.display =
+li.textContent.toLowerCase().includes(val)
 ? 'flex':'none';
 });
 };
