@@ -1,58 +1,153 @@
-body { margin:0; font-family:Arial; }
-.header { height:70px; background:#fff; display:flex; align-items:center; border-bottom:2px solid #ccc; }
-.header-content { display:flex; justify-content:space-between; width:100%; padding:0 15px; }
-.app { display:flex; height:calc(100vh - 70px); }
-
-.route-sidebar {
-width:260px;
-background:white;
-display:flex;
-flex-direction:column;
+:root {
+    --primary:#440118;
+    --accent:#C5A059;
+    --bg:#F9F4E8;
 }
 
-.sidebar-scroll { overflow:auto; flex:1; }
+body { margin:0; font-family:Arial; background:var(--bg); }
 
-.map-wrapper { flex:1; }
+.header {
+height:80px;
+background:white;
+border-bottom:3px solid var(--accent);
+display:flex;
+align-items:center;
+}
+
+.header-content {
+display:flex;
+justify-content:space-between;
+width:100%;
+padding:0 20px;
+}
+
+.header-left { display:flex; align-items:center; }
+
+.logo-medallion-c {
+width:55px;height:55px;
+background:var(--primary);
+border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+color:var(--accent);
+font-size:28px;font-weight:bold;
+margin-right:15px;
+}
+
+.app { display:flex; height:calc(100vh - 80px); }
+
+/* SIDEBAR */
+.route-sidebar {
+width:300px;
+background:white;
+padding:15px;
+overflow:auto;
+}
+
+#route-list { list-style:none; padding:0; }
+
+#route-list li {
+padding:10px;
+border-bottom:1px solid #eee;
+display:flex;
+gap:8px;
+}
+
+/* MAP */
+.map-wrapper { flex:1; position:relative; }
 #map { width:100%; height:100%; }
 
+/* КАСТОМ ИКОНКИ */
+.custom-pin {
+width:38px;height:38px;
+border-radius:50% 50% 50% 0;
+transform:rotate(-45deg);
+display:flex;
+align-items:center;
+justify-content:center;
+border:2px solid white;
+}
+
+.custom-pin img {
+width:20px;
+transform:rotate(45deg);
+}
+
+.pin-chapel { background:#E69500; }
+.pin-monument { background:#A52A2A; }
+.pin-museum { background:#4682B4; }
+.pin-school { background:#556B2F; }
+
+/* PANEL */
 .details-panel {
 position:fixed;
-right:-320px;
-top:70px;
-width:300px;
+right:-340px;
+top:80px;
+width:320px;
 height:100%;
 background:white;
 transition:0.3s;
-padding:10px;
+padding:15px;
+z-index:2000;
 }
 
 .details-panel.active { right:0; }
 
-#details-gallery img {
+.details-gallery {
+display:flex;
+gap:5px;
+overflow-x:auto;
+margin-bottom:10px;
+}
+
+.details-gallery img {
 height:60px;
-margin:3px;
 cursor:pointer;
 }
 
+/* MODAL */
 .image-zoom-modal {
 display:none;
 position:fixed;
 width:100%;
 height:100%;
-background:black;
+background:rgba(0,0,0,0.9);
 justify-content:center;
 align-items:center;
+z-index:5000;
 }
 
 #fullImage { max-width:90%; }
 
-#navLeft,#navRight {
+.nav-zone {
 position:absolute;
-top:50%;
-color:white;
-font-size:40px;
+width:20%;
+height:100%;
 cursor:pointer;
 }
 
-#navLeft { left:20px; }
-#navRight { right:20px; }
+.nav-zone.left { left:0; }
+.nav-zone.right { right:0; }
+
+.nav-zone span {
+color:white;
+font-size:40px;
+}
+
+/* BUTTONS */
+.btn-main {
+background:var(--primary);
+color:white;
+padding:12px;
+border:none;
+border-radius:10px;
+width:100%;
+margin-top:10px;
+}
+
+.btn-sub {
+background:none;
+border:none;
+color:#777;
+margin-top:10px;
+cursor:pointer;
+}
