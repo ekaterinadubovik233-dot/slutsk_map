@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
-    
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -58,16 +57,13 @@
         <div class="video-inline-container">
             <video id="details-video" controls playsinline preload="auto"></video>
         </div>
-        <div class="details-text-box">
-            <p id="details-description"></p>
-        </div>
     </aside>
 
     <div id="imageModal" class="image-zoom-modal">
         <span class="close-zoom" id="closeZoomBtn">&times;</span>
-        <div class="nav-zone left" onclick="changeImage(-1)"><span>&#10094;</span></div>
+        <div class="nav-zone left" id="navLeft"><span>&#10094;</span></div>
         <img id="fullImage">
-        <div class="nav-zone right" onclick="changeImage(1)"><span>&#10095;</span></div>
+        <div class="nav-zone right" id="navRight"><span>&#10095;</span></div>
     </div>
 </main>
 
