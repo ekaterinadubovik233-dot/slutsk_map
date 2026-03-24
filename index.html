@@ -2,9 +2,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Слуцк: Культурное наследие</title>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
@@ -28,14 +28,18 @@
 </header>
 
 <main class="app">
-    <button id="toggleSidebar" class="mobile-menu-btn">☰ Список</button>
+    <button id="toggleSidebar" class="mobile-menu-btn">☰</button>
 
     <aside class="route-sidebar" id="sidebar">
         <div class="sidebar-header">
             <h3>Достопримечательности</h3>
             <button id="closeSidebar" class="mobile-close-btn">×</button>
         </div>
-        <div class="sidebar-scroll"><ul id="route-list"></ul></div>
+
+        <div class="sidebar-scroll">
+            <ul id="route-list"></ul>
+        </div>
+
         <div class="sidebar-controls">
             <button id="buildRoute" class="btn-main">ПОСТРОИТЬ МАРШРУТ</button>
             <button id="clearRoute" class="btn-sub">Очистить всё</button>
@@ -44,9 +48,10 @@
 
     <section class="map-wrapper">
         <div id="map"></div>
+
         <div class="map-controls">
             <button id="pauseCar">⏸ Пауза</button>
-            <button id="followCar">🎥 Слежение: ВЫКЛ</button>
+            <button id="followCar">🎥 Слежение</button>
         </div>
     </section>
 
@@ -54,21 +59,22 @@
         <button class="details-close" id="closeDetailsBtn">×</button>
         <h2 id="details-title"></h2>
         <div class="details-gallery" id="details-gallery"></div>
+
         <div class="video-inline-container">
-            <video id="details-video" controls playsinline preload="auto"></video>
+            <video id="details-video" controls></video>
         </div>
     </aside>
 
     <div id="imageModal" class="image-zoom-modal">
         <span class="close-zoom" id="closeZoomBtn">&times;</span>
-        <div class="nav-zone left" id="navLeft"><span>&#10094;</span></div>
+        <div class="nav-zone left" id="navLeft"><span>❮</span></div>
         <img id="fullImage">
-        <div class="nav-zone right" id="navRight"><span>&#10095;</span></div>
+        <div class="nav-zone right" id="navRight"><span>❯</span></div>
     </div>
+
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
 <script src="js/map.js"></script>
 

@@ -1,57 +1,123 @@
-:root { --primary: #440118; --accent: #C5A059; --bg: #F9F4E8; }
-html, body { height: 100%; width: 100%; margin: 0; padding: 0; overflow: hidden; }
-* { box-sizing: border-box; }
-body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
-
-/* ШАПКА: Исправление текста */
-.header { height: 75px; background: white; border-bottom: 3px solid var(--accent); display: flex; align-items: center; z-index: 2000; position: relative; }
-.header-content { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; }
-.header-left { display: flex; align-items: center; }
-.title-group { display: flex; flex-direction: column; justify-content: center; }
-.logo-medallion-c { width: 52px; height: 52px; background: var(--primary); border: 3px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
-.logo-medallion-c span { color: var(--accent); font-size: 32px; font-weight: 900; font-family: 'Georgia', serif; line-height: 1; }
-.main-title { font-size: 1.1rem; color: var(--primary); font-weight: 900; margin: 0; line-height: 1.2; }
-.sub-title { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin: 0; line-height: 1.2; }
-
-/* ИКОНКИ: Мягкие цвета */
-.custom-div-icon { background: none; border: none; }
-.custom-pin {
-    width: 38px; height: 38px; border-radius: 50% 50% 50% 0;
-    position: absolute; transform: rotate(-45deg);
-    left: 50%; top: 50%; margin: -19px 0 0 -19px;
-    border: 2px solid white; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+:root {
+    --primary: #440118;
+    --accent: #C5A059;
+    --bg: #F9F4E8;
 }
-.custom-pin img { width: 22px; height: 22px; transform: rotate(45deg); object-fit: contain; }
 
-.pin-chapel { background: #E69500; } /* Желто-оранжевый */
-.pin-monument { background: #A52A2A; } /* Приглушенный красный */
-.pin-museum { background: #4682B4; } /* Стальной синий */
-.pin-school { background: #556B2F; } /* Оливковый зеленый */
+* { box-sizing: border-box; }
 
-/* ПАНЕЛЬ И МОДАЛКА */
-.details-panel { position: fixed; right: -360px; top: 75px; width: 340px; height: calc(100% - 75px); background: white; z-index: 3000; padding: 20px; box-shadow: -5px 0 25px rgba(0,0,0,0.1); transition: 0.4s; display: flex; flex-direction: column; }
-.details-panel.active { right: 0; }
-.details-close { position: absolute; top: 10px; right: 10px; font-size: 35px; background: none; border: none; cursor: pointer; color: #bbb; z-index: 10; }
-.details-close:hover { color: var(--primary); }
+body {
+    margin: 0;
+    font-family: Arial;
+    background: var(--bg);
+}
 
-.image-zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; }
-#fullImage { max-width: 90%; max-height: 85%; border: 4px solid white; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
-.close-zoom { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; cursor: pointer; font-weight: bold; }
+/* HEADER */
+.header {
+    height: 70px;
+    background: white;
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid var(--accent);
+}
 
-/* Остальное (навигация, карта) оставляем без изменений */
-.app { display: flex; height: calc(100% - 75px); position: relative; }
-.route-sidebar { width: 280px; height: 100%; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; padding: 15px 10px; }
-.sidebar-scroll { flex-grow: 1; overflow-y: auto; }
-#route-list { list-style: none; padding: 0; margin: 0; }
-#route-list li { padding: 8px 5px; border-bottom: 1px solid #eee; display: flex; align-items: center; font-size: 13px; }
-.map-wrapper { flex-grow: 1; height: 100%; position: relative; }
-#map { width: 100%; height: 100%; }
-.video-inline-container { width: 100%; background: #000; border-radius: 8px; overflow: hidden; }
-#details-video { width: 100%; max-height: 250px; }
-.details-gallery { display: flex; gap: 5px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; }
-.details-gallery img { height: 60px; border-radius: 4px; cursor: pointer; }
-.btn-main { background: var(--primary); color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-.btn-sub { background: none; border: none; color: #888; width: 100%; padding: 10px; cursor: pointer; text-decoration: underline; }
-.map-controls { position: absolute; bottom: 20px; width: 100%; display: flex; justify-content: center; gap: 10px; z-index: 1000; }
-.map-controls button { padding: 8px 15px; background: white; border: 2px solid var(--primary); border-radius: 20px; font-weight: bold; cursor: pointer; }
+.header-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo-medallion-c {
+    width: 45px;
+    height: 45px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-medallion-c span {
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.app {
+    display: flex;
+    height: calc(100vh - 70px);
+}
+
+/* SIDEBAR */
+.route-sidebar {
+    width: 260px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-scroll {
+    overflow-y: auto;
+    flex: 1;
+}
+
+#route-list li {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+/* MAP */
+.map-wrapper {
+    flex: 1;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+/* DETAILS */
+.details-panel {
+    position: fixed;
+    right: -350px;
+    top: 70px;
+    width: 320px;
+    height: 100%;
+    background: white;
+    transition: 0.3s;
+}
+
+.details-panel.active {
+    right: 0;
+}
+
+/* MODAL */
+.image-zoom-modal {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-zone {
+    position: absolute;
+    width: 20%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.nav-zone.left { left: 0; }
+.nav-zone.right { right: 0; }
+
+.nav-zone span {
+    color: white;
+    font-size: 40px;
+}
