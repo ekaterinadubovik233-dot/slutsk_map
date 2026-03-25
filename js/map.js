@@ -45,15 +45,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // РИСУЕМ ТОЧКИ И ДОБАВЛЯЕМ В ГРУППУ
+    // ИНИЦИАЛИЗАЦИЯ ТОЧЕК
     L.geoJSON(attractionsData, {
         pointToLayer: (f, latlng) => {
             const colorClass = getPinColor(f.properties.TYPE);
-            const icon = L.divIcon({ className: 'custom-div-icon', html: `<div class="custom-pin ${colorClass}"><img src="img/icons/${f.properties.TYPE}.png"></div>`, iconSize: [36, 36], iconAnchor: [18, 36] });
+            const icon = L.divIcon({ className: 'custom-div-icon', html: `<div class="custom-pin ${colorClass}"><img src="img/icons/${f.properties.TYPE}.png"></div>`, iconSize: [38, 38], iconAnchor: [19, 38] });
             const m = L.marker(latlng, { icon: icon });
             m.bindTooltip(f.properties.NAME, { direction: 'top', offset: [0, -35] });
-            
-            m.on('click', () => window.openDetails(f.properties));
             return m;
         },
         onEachFeature: (f, layer) => {
@@ -64,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 else selectedPoints = selectedPoints.filter(p => p.properties.ID !== f.properties.ID);
             });
             document.getElementById('route-list').appendChild(li);
+            layer.on('click', () => window.openDetails(f.properties));
             markersGroup.addLayer(layer);
         }
     });
@@ -71,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('buildRoute').onclick = () => {
         if (selectedPoints.length < 2) return alert('Выберите хотя бы 2 объекта!');
         if (routingControl) map.removeControl(routingControl);
-        sidebar.classList.remove('active');
+        document.getElementById('sidebar').classList.remove('active');
 
         routingControl = L.Routing.control({
             waypoints: selectedPoints.map(p => p.latlng),
@@ -116,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         carMarker.setLatLng(pos);
         if (followCar) map.panTo(pos, { animate: true, duration: 0.1 });
+        
         requestAnimationFrame(animateStep);
     }
 
@@ -137,7 +137,8 @@ document.addEventListener('DOMContentLoaded', function() {
             img.onclick = () => openImageZoom(i);
             gallery.appendChild(img);
         }
-        document.getElementById('details-video').src = props.VIDEO || "";
+        const video = document.getElementById('details-video');
+        video.src = props.VIDEO || "";
         document.getElementById('detailsPanel').classList.add('active');
     };
 
@@ -162,15 +163,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function filterList(searchValue) {
-        const val = searchValue.toLowerCase();
-        document.querySelectorAll('#route-list li').forEach(li => {
-            li.style.display = li.textContent.toLowerCase().includes(val) ? 'flex' : 'none';
-        });
-    }
-
-    document.getElementById('pcSearch').oninput = (e) => filterList(e.target.value);
-    document.getElementById('mobileSearch').oninput = (e) => filterList(e.target.value);
+    document.getElementById('pcSearch').oninput = (e) => {
+        const val = e.target.value.toLowerCase();
+        document.querySelectorAll('#route-list li').forEach(li => { li.style.display = li.textContent.toLowerCase().includes(val) ? 'flex' : 'none'; });
+    };
 
     const sidebar = document.getElementById('sidebar');
     document.getElementById('toggleSidebar').onclick = () => sidebar.classList.add('active');

@@ -36,11 +36,6 @@
             <button id="closeSidebar" class="mobile-close-btn">×</button>
         </div>
         
-        <!-- Мобильный поиск -->
-        <div class="sidebar-search-mobile">
-            <input type="text" id="mobileSearch" placeholder="Поиск...">
-        </div>
-
         <div class="sidebar-scroll"><ul id="route-list"></ul></div>
         
         <div class="sidebar-controls">
@@ -52,8 +47,8 @@
     <section class="map-wrapper">
         <div id="map"></div>
         <div class="map-controls">
-            <button id="pauseCar" class="btn-ctrl">⏸ Пауза</button>
-            <button id="followCar" class="btn-ctrl">🎥 Слежение: ВЫКЛ</button>
+            <button id="pauseCar">⏸ Пауза</button>
+            <button id="followCar">🎥 Слежение: ВЫКЛ</button>
         </div>
     </section>
 
@@ -77,7 +72,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js"></script>
-<script src="https://unpkg.com/leaflet.markercluster@1.4.1/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 <script src="js/map.js"></script>
 
 </body>
