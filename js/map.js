@@ -1,18 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    let followCar = false; 
+    let followCar = false; // ПО УМОЛЧАНИЮ ВЫКЛЮЧЕНО
     const map = L.map('map', { 
         attributionControl: false, 
-        zoomSnap: 0.1
+        zoomSnap: 0.1,
+        zoomAnimationThreshold: 10
     }).setView([53.0276, 27.5597], 14);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    const markersGroup = L.markerClusterGroup({ 
-        showCoverageOnHover: false, 
-        disableClusteringAtZoom: 13, 
-        spiderfyOnMaxZoom: true 
-    });
+    const markersGroup = L.markerClusterGroup({ showCoverageOnHover: false, disableClusteringAtZoom: 13, spiderfyOnMaxZoom: true });
     map.addLayer(markersGroup);
 
     const attractionsData = {
@@ -45,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Инициализация объектов (ВАЖНО: Добавлено addTo(markersGroup) и markersGroup.addTo(map))
     L.geoJSON(attractionsData, {
         pointToLayer: (f, latlng) => {
             const colorClass = getPinColor(f.properties.TYPE);
@@ -163,10 +159,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.getElementById('pcSearch').oninput = (e) => {
-        const val = e.target.value.toLowerCase();
-        document.querySelectorAll('#route-list li').forEach(li => { li.style.display = li.textContent.toLowerCase().includes(val) ? 'flex' : 'none'; });
-    };
+    // ОБЩАЯ ФУНКЦИЯ ПОИСКА
+    function filterList(searchValue) {
+        const val = searchValue.toLowerCase();
+        document.querySelectorAll('#route-list li').forEach(li => {
+            li.style.display = li.textContent.toLowerCase().includes(val) ? 'flex' : 'none';
+        });
+    }
+
+    document.getElementById('pcSearch').oninput = (e) => filterList(e.target.value);
+    document.getElementById('mobileSearch').oninput = (e) => filterList(e.target.value);
 
     const sidebar = document.getElementById('sidebar');
     document.getElementById('toggleSidebar').onclick = () => sidebar.classList.add('active');
@@ -175,5 +177,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('closeZoomBtn').onclick = () => document.getElementById('imageModal').style.display = 'none';
     document.getElementById('pauseCar').onclick = () => isPaused = !isPaused;
     document.getElementById('clearRoute').onclick = () => location.reload();
-    document.getElementById('followCar').onclick = (e) => { followCar = !followCar; e.target.textContent = `🎥 Слежение: ${followCar ? 'ВКЛ' : 'ВЫКЛ'}`; };
+    document.getElementById('followCar').onclick = (e) => { 
+        followCar = !followCar; 
+        e.target.textContent = `🎥 Слежение: ${followCar ? 'ВКЛ' : 'ВЫКЛ'}`; 
+    };
 });
