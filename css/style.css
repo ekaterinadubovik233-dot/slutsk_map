@@ -3,93 +3,82 @@ html, body { height: 100%; width: 100%; margin: 0; padding: 0; overflow: hidden;
 * { box-sizing: border-box; }
 body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
 
-/* СКРЫВАЕМ МУСОР */
-.leaflet-routing-container { display: none !important; visibility: hidden !important; }
+.leaflet-routing-container { display: none !important; }
 
-/* ШАПКА ПК */
-.header { height: 80px; background: white; border-bottom: 3px solid var(--accent); display: flex; align-items: center; z-index: 2000; position: relative; }
-.header-content { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
-.header-left { display: flex; align-items: center; flex-direction: row; }
+/* ШАПКА */
+.header { height: 75px; background: white; border-bottom: 3px solid var(--accent); display: flex; align-items: center; z-index: 2000; position: relative; }
+.header-content { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; }
+.header-left { display: flex; align-items: center; }
+.logo-medallion-c { width: 52px; height: 52px; background: var(--primary); border: 3px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
+.logo-medallion-c span { color: var(--accent); font-size: 32px; font-weight: 900; font-family: 'Georgia', serif; }
+.main-title { font-size: 1.15rem; color: var(--primary); font-weight: 900; margin: 0; }
+.sub-title { font-size: 0.85rem; color: var(--accent); font-weight: 600; margin: 0; }
+.header-search-container input { width: 280px; padding: 10px 20px; border-radius: 20px; border: 1.5px solid var(--primary); background: #f9f9f9; outline: none; }
 
-.logo-medallion-c {
-    width: 55px; height: 55px; background: var(--primary); border: 3px solid var(--accent); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0;
-}
-.logo-medallion-c span { color: var(--accent); font-size: 34px; font-weight: 900; font-family: 'Georgia', serif; }
+.app { display: flex; height: calc(100% - 75px); position: relative; }
 
-.title-group { display: flex; flex-direction: column; line-height: 1.1; }
-.main-title { font-size: 1.25rem; color: var(--primary); font-weight: 900; margin: 0; letter-spacing: 0.5px; }
-.sub-title { font-size: 0.95rem; color: var(--accent); font-weight: 600; margin: 0; }
-
-.header-search-container input { width: 320px; padding: 10px 20px; border-radius: 20px; border: 2px solid var(--primary); background: #fdfdfd; outline: none; }
-
-.app { display: flex; height: calc(100% - 80px); position: relative; }
-
-/* САЙДБАР (СПИСОК) */
-.route-sidebar { width: 300px; height: 100%; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; padding: 20px 15px; z-index: 1001; }
-.sidebar-header h3 { font-size: 1.1rem; color: var(--primary); text-align: center; width: 100%; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-.sidebar-scroll { flex-grow: 1; overflow-y: auto; padding: 0 5px; }
-#route-list { list-style: none !important; padding: 0 !important; }
+/* САЙДБАР */
+.route-sidebar { width: 300px; height: 100%; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; padding: 20px 15px; z-index: 5001; }
+.sidebar-header h3 { font-size: 1.1rem; color: var(--primary); text-align: center; width: 100%; margin-bottom: 15px; }
+.sidebar-scroll { flex-grow: 1; overflow-y: auto; }
+#route-list { list-style: none; padding: 0; margin: 0; }
 #route-list li { padding: 10px 0; border-bottom: 1px solid #f9f9f9; display: flex; align-items: center; font-size: 14px; }
-#route-list input { margin-right: 12px; width: 18px; height: 18px; cursor: pointer; flex-shrink: 0; }
-
-/* КНОПКИ САЙДБАРА */
+#route-list input { margin-right: 12px; width: 18px; height: 18px; flex-shrink: 0; }
 .sidebar-controls { padding-top: 15px; border-top: 1px solid #eee; }
-.btn-main { background: var(--primary); color: white; width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 8px; font-size: 13px; transition: 0.3s; }
-.btn-main:hover { background: #600222; transform: translateY(-2px); }
-.btn-clear { background: var(--primary) !important; opacity: 0.9; }
+.btn-main { background: var(--primary); color: white; width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 8px; font-size: 13px; }
+.btn-clear { opacity: 0.8; }
 
 /* КАРТА */
 .map-wrapper { flex-grow: 1; height: 100%; position: relative; z-index: 1; }
-#map { width: 100%; height: 100% !important; }
+#map { width: 100%; height: 100% !important; background: var(--bg); }
 
-/* ПАНЕЛЬ ПОДРОБНОСТЕЙ */
-.details-panel { position: fixed; right: -380px; top: 80px; width: 350px; height: calc(100% - 80px); background: white; z-index: 3000; padding: 25px; box-shadow: -5px 0 25px rgba(0,0,0,0.1); transition: 0.4s ease; display: flex; flex-direction: column; }
+/* ПАНЕЛЬ ПОДРОБНОСТЕЙ (БЕЗ ТЕКСТА) */
+.details-panel { position: fixed; right: -400px; top: 75px; width: 380px; height: calc(100% - 75px); background: white; z-index: 4000; padding: 25px; box-shadow: -5px 0 25px rgba(0,0,0,0.1); transition: 0.4s ease; display: flex; flex-direction: column; align-items: center; }
 .details-panel.active { right: 0; }
 .details-close { position: absolute; top: 10px; right: 10px; font-size: 35px; background: none; border: none; cursor: pointer; color: #ccc; }
-.details-gallery { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; min-height: 80px; flex-shrink: 0; }
-.details-gallery img { height: 75px; border-radius: 8px; flex-shrink: 0; cursor: pointer; }
-.details-text-box { flex-grow: 1; overflow-y: auto; color: #333; line-height: 1.6; font-size: 14.5px; padding-right: 5px; }
-.video-btn { background: var(--primary); color: var(--accent); width: 100%; padding: 16px; border: none; border-radius: 8px; font-weight: bold; flex-shrink: 0; cursor: pointer; }
+#details-title { text-align: center; margin-bottom: 20px; color: var(--primary); font-size: 1.4rem; }
 
-/* ЦВЕТНЫЕ ПИНЫ (ЗАФИКСИРОВАНО) */
-.custom-pin { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50% 50% 50% 0; border: 2px solid white; transform: rotate(-45deg); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
-.custom-pin img { width: 22px; height: 22px; transform: rotate(45deg); filter: brightness(0) invert(1); }
-.pin-chapel { background: #2c5282; } .pin-monument { background: #9b2c2c; } .pin-museum { background: #b7791f; } .pin-school { background: #276749; }
+.details-gallery { display: flex; gap: 10px; overflow-x: auto; width: 100%; padding-bottom: 10px; margin-bottom: 20px; }
+.details-gallery img { height: 120px; border-radius: 12px; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+
+.video-main-container { width: 100%; flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #000; border-radius: 15px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+#details-video { width: 100%; height: auto; max-height: 100%; }
 
 /* МОБИЛЬНАЯ ВЕРСИЯ */
 @media (max-width: 768px) {
-    .header { height: 70px; }
+    .header { height: 65px; }
+    .main-title { font-size: 1rem; } .sub-title { font-size: 0.75rem; }
+    .logo-medallion-c { width: 45px; height: 45px; }
     .header-search-container { display: none; }
-    .logo-medallion-c { width: 45px; height: 45px; margin-right: 12px; }
-    .logo-medallion-c span { font-size: 28px; }
-    .main-title { font-size: 1rem; } .sub-title { font-size: 0.8rem; }
-    .app { display: block; height: calc(100% - 70px); }
+    .app { display: block; height: calc(100% - 65px); }
     .map-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-    .mobile-menu-btn { display: block !important; position: absolute; top: 12px; left: 12px; z-index: 1500; background: white; border: 2px solid var(--primary); padding: 8px 18px; border-radius: 20px; font-weight: bold; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-    .route-sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; z-index: 5000; }
+    
+    /* Убираем зум на мобилках */
+    .leaflet-control-zoom { display: none !important; }
+
+    .mobile-menu-btn { display: block !important; position: absolute; top: 15px; left: 15px; z-index: 1000; background: white; border: 2.5px solid var(--primary); padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); color: var(--primary); }
+    
+    .route-sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; z-index: 6000; transition: 0.4s; }
     .route-sidebar.active { left: 0; }
-    .details-panel { width: 100%; height: 90%; bottom: -100%; right: 0; top: auto; border-radius: 25px 25px 0 0; z-index: 6000; transition: transform 0.5s cubic-bezier(0.1, 0.7, 0.1, 1); }
+    .mobile-close-btn { display: block !important; font-size: 40px; background: none; border: none; color: var(--primary); cursor: pointer; }
+
+    .details-panel { width: 100%; height: 85%; bottom: -100%; right: 0; top: auto; border-radius: 30px 30px 0 0; z-index: 7000; transition: transform 0.5s ease; }
     .details-panel.active { transform: translateY(-100%); bottom: 0; }
-    .drag-handle { display: block; width: 40px; height: 5px; background: #ddd; border-radius: 10px; margin: -10px auto 15px; flex-shrink: 0; }
+    .drag-handle { display: block; width: 50px; height: 6px; background: #ddd; border-radius: 10px; margin: -10px auto 20px; }
+    
+    .map-controls { bottom: 25px; width: 100%; left: 0; padding: 0 15px; display: flex; justify-content: center; gap: 10px; }
+    .map-controls button { flex: 1; padding: 15px 5px; font-size: 13px; background: white; border: 2.5px solid var(--primary); border-radius: 30px; font-weight: bold; pointer-events: auto; }
 }
 
-/* МОДАЛКИ */
-.modal-title-centered { text-align: center; width: 100%; margin-bottom: 15px; color: var(--primary); }
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; }
-.modal-content { background: white; width: 92%; max-width: 550px; margin: 50px auto; padding: 20px; border-radius: 15px; position: relative; }
-.video-fix-container { width: 100%; background: #000; border-radius: 8px; overflow: hidden; }
-#details-video { width: 100%; max-height: 60vh; display: block; object-fit: contain; }
-.close-modal { position: absolute; top: -45px; right: 0; font-size: 45px; color: white; cursor: pointer; }
-
-.image-zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; align-items: center; justify-content: center; }
-#fullImage { max-width: 90%; max-height: 80%; border: 3px solid white; }
-.nav-zone { position: absolute; top: 0; height: 100%; width: 25%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 40px; z-index: 10001; }
+.image-zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; align-items: center; justify-content: center; }
+#fullImage { max-width: 95%; max-height: 85%; border: 2px solid white; }
+.nav-zone { position: absolute; top: 0; height: 100%; width: 30%; display: flex; align-items: center; justify-content: center; color: white; font-size: 50px; z-index: 10; cursor: pointer; }
 .nav-zone.left { left: 0; } .nav-zone.right { right: 0; }
-.close-zoom { position: absolute; top: 20px; right: 20px; color: white; font-size: 45px; z-index: 10002; cursor: pointer; }
+.close-zoom { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; z-index: 20; cursor: pointer; }
 
-.map-controls { position: absolute; bottom: 25px; width: 100%; display: flex; justify-content: center; gap: 10px; z-index: 1000; pointer-events: none; }
-.map-controls button { pointer-events: auto; padding: 10px 20px; background: white; border: 2.5px solid var(--primary); border-radius: 25px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.custom-pin { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50% 50% 50% 0; border: 2px solid white; transform: rotate(-45deg); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+.custom-pin img { width: 22px; height: 22px; transform: rotate(45deg); filter: brightness(0) invert(1); }
+.pin-chapel { background: #2c5282; } .pin-monument { background: #9b2c2c; } .pin-museum { background: #b7791f; } .pin-school { background: #276749; }
 
 .mobile-menu-btn, .mobile-close-btn { display: none; }
 #car-img { width: 100%; height: 100%; }
