@@ -1,15 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    let followCar = false; // ВЫКЛЮЧЕНО ПО УМОЛЧАНИЮ
+    let followCar = false; 
     const map = L.map('map', { 
         attributionControl: false, 
-        zoomSnap: 0.1,
-        zoomAnimationThreshold: 10
+        zoomSnap: 0.1
     }).setView([53.0276, 27.5597], 14);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    const markersGroup = L.markerClusterGroup({ showCoverageOnHover: false, disableClusteringAtZoom: 13, spiderfyOnMaxZoom: true });
+    const markersGroup = L.markerClusterGroup({ 
+        showCoverageOnHover: false, 
+        disableClusteringAtZoom: 13, 
+        spiderfyOnMaxZoom: true 
+    });
     map.addLayer(markersGroup);
 
     const attractionsData = {
@@ -42,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Инициализация объектов (ВАЖНО: Добавлено addTo(markersGroup) и markersGroup.addTo(map))
     L.geoJSON(attractionsData, {
         pointToLayer: (f, latlng) => {
             const colorClass = getPinColor(f.properties.TYPE);
@@ -66,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('buildRoute').onclick = () => {
         if (selectedPoints.length < 2) return alert('Выберите хотя бы 2 объекта!');
         if (routingControl) map.removeControl(routingControl);
-        sidebar.classList.remove('active');
+        document.getElementById('sidebar').classList.remove('active');
 
         routingControl = L.Routing.control({
             waypoints: selectedPoints.map(p => p.latlng),
@@ -97,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isPaused || isWaitingForClose) { requestAnimationFrame(animateStep); return; }
 
         const start = animationPoints[currentIndex], end = animationPoints[currentIndex + 1];
-        segmentProgress += 0.05; // СТАБИЛЬНАЯ ПЛАВНАЯ СКОРОСТЬ
+        segmentProgress += 0.05; 
 
         if (segmentProgress >= 1) {
             segmentProgress = 0; currentIndex++;
