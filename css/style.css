@@ -17,73 +17,60 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
 
 .app { display: flex; height: calc(100% - 75px); position: relative; }
 
-/* САЙДБАР (СПИСОК) - УЗКИЕ РАССТОЯНИЯ */
-.route-sidebar { width: 300px; height: 100%; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; padding: 15px 15px; z-index: 5001; }
-.sidebar-header h3 { font-size: 1.1rem; color: var(--primary); text-align: center; margin-bottom: 10px; }
-.sidebar-scroll { flex-grow: 1; overflow-y: auto; }
-#route-list { list-style: none; padding: 0; margin: 0; }
-#route-list li { padding: 5px 0; border-bottom: 1px solid #f9f9f9; display: flex; align-items: center; font-size: 13.5px; }
-#route-list input { margin-right: 10px; width: 17px; height: 17px; flex-shrink: 0; cursor: pointer; }
-
-.sidebar-controls { padding-top: 15px; border-top: 1px solid #eee; }
+/* САЙДБАР - УЗКИЙ СПИСОК */
+.route-sidebar { width: 280px; height: 100%; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; padding: 15px 10px; z-index: 5001; }
+.sidebar-header h3 { font-size: 1.05rem; color: var(--primary); text-align: center; width: 100%; margin-bottom: 15px; }
+.sidebar-scroll { flex-grow: 1; overflow-y: auto; padding: 0 5px; }
+#route-list { list-style: none !important; padding: 0 !important; margin: 0; }
+#route-list li { padding: 5px 0; border-bottom: 1px solid #f9f9f9; display: flex; align-items: center; font-size: 13px; }
+#route-list input { margin-right: 10px; width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; }
+.sidebar-controls { padding: 10px 5px; border-top: 1px solid #eee; }
 .btn-main { background: var(--primary); color: white; width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 8px; font-size: 13px; }
+.btn-clear { opacity: 0.8; }
 
 /* КНОПКИ УПРАВЛЕНИЯ КАРТОЙ (БОРДОВЫЕ) */
 .map-controls { position: absolute; bottom: 25px; left: 0; width: 100%; display: flex; justify-content: center; gap: 10px; z-index: 1000; pointer-events: none; }
-.map-controls button { pointer-events: auto; background: var(--primary); color: white; border: 2px solid var(--accent); padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.2s; }
-.map-controls button:hover { background: #600222; }
+.map-controls button { pointer-events: auto; background: var(--primary); color: white; border: 2.5px solid var(--accent); padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
 /* КАРТА */
 .map-wrapper { flex-grow: 1; height: 100%; position: relative; z-index: 1; }
 #map { width: 100%; height: 100% !important; background: var(--bg); }
 
 /* ПАНЕЛЬ ПОДРОБНОСТЕЙ */
-.details-panel { position: fixed; right: -400px; top: 75px; width: 380px; height: calc(100% - 75px); background: white; z-index: 4000; padding: 25px; box-shadow: -5px 0 25px rgba(0,0,0,0.1); transition: 0.4s; display: flex; flex-direction: column; }
+.details-panel { position: fixed; right: -360px; top: 75px; width: 340px; height: calc(100% - 75px); background: white; z-index: 4000; padding: 20px; box-shadow: -5px 0 25px rgba(0,0,0,0.1); transition: 0.4s ease; display: flex; flex-direction: column; align-items: center; }
 .details-panel.active { right: 0; }
 .details-close { position: absolute; top: 10px; right: 10px; font-size: 35px; background: none; border: none; cursor: pointer; color: #ccc; }
 #details-title { text-align: center; margin-bottom: 15px; color: var(--primary); font-size: 1.3rem; }
-
-.details-gallery { display: flex; gap: 10px; overflow-x: auto; width: 100%; min-height: 110px; margin-bottom: 15px; }
-.details-gallery img { height: 100px; border-radius: 10px; flex-shrink: 0; cursor: pointer; }
-
+.details-gallery { display: flex; gap: 10px; overflow-x: auto; width: 100%; min-height: 85px; margin-bottom: 15px; }
+.details-gallery img { height: 80px; border-radius: 10px; flex-shrink: 0; cursor: pointer; }
 .video-main-container { width: 100%; flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #000; border-radius: 12px; overflow: hidden; }
 #details-video { width: 100%; height: auto; max-height: 100%; }
 
 /* МОБИЛЬНАЯ ВЕРСИЯ */
 @media (max-width: 768px) {
-    .header { height: 65px; }
-    .header-search-container { display: none; }
-    .app { display: block; height: calc(100% - 65px); }
+    .app { display: block; height: calc(100% - 75px); }
     .map-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-    .leaflet-control-zoom { display: none !important; }
-
-    .mobile-menu-btn { display: block !important; position: absolute; top: 15px; left: 15px; z-index: 1100; background: var(--primary); color: white; border: 2px solid var(--accent); padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 13px; }
-    
+    .mobile-menu-btn { display: block !important; position: absolute; top: 10px; left: 10px; z-index: 1500; background: var(--primary); color: white; border: 2px solid var(--accent); padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
     .route-sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; z-index: 6000; transition: 0.4s; }
     .route-sidebar.active { left: 0; }
     .mobile-close-btn { display: block !important; font-size: 40px; background: none; border: none; color: var(--primary); cursor: pointer; }
-    
     .sidebar-search-mobile { display: block; margin-bottom: 10px; }
     .sidebar-search-mobile input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
-
-    .details-panel { width: 100%; height: 80%; bottom: -100%; right: 0; top: auto; border-radius: 25px 25px 0 0; z-index: 7000; transition: bottom 0.4s ease; }
-    .details-panel.active { bottom: 0; }
-    .drag-handle { display: block; width: 50px; height: 5px; background: #ddd; border-radius: 10px; margin: -5px auto 15px; flex-shrink: 0; }
-    
+    .details-panel { width: 100%; height: 85%; bottom: -100%; right: 0; top: auto; border-radius: 30px 30px 0 0; z-index: 7000; transition: transform 0.5s ease; }
+    .details-panel.active { transform: translateY(-100%); bottom: 0; }
+    .drag-handle { display: block; width: 50px; height: 6px; background: #ddd; border-radius: 10px; margin: -10px auto 15px; flex-shrink: 0; }
     .map-controls { bottom: 20px; padding: 0 10px; }
-    .map-controls button { flex: 1; padding: 12px 5px; font-size: 12px; }
+    .map-controls button { flex: 1; padding: 15px 5px; font-size: 12px; }
 }
 
-/* МОДАЛКИ */
 .image-zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; align-items: center; justify-content: center; }
-#fullImage { max-width: 90%; max-height: 80%; border: 2px solid white; }
+#fullImage { max-width: 90%; max-height: 80%; border: 3px solid white; }
 .nav-zone { position: absolute; top: 0; height: 100%; width: 30%; display: flex; align-items: center; justify-content: center; color: white; font-size: 40px; z-index: 10; cursor: pointer; }
 .nav-zone.left { left: 0; } .nav-zone.right { right: 0; }
-.close-zoom { position: absolute; top: 20px; right: 25px; color: white; font-size: 45px; z-index: 20; }
+.close-zoom { position: absolute; top: 20px; right: 25px; color: white; font-size: 45px; z-index: 20; cursor: pointer; }
 
 .custom-pin { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50% 50% 50% 0; border: 2px solid white; transform: rotate(-45deg); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
 .custom-pin img { width: 20px; height: 20px; transform: rotate(45deg); filter: brightness(0) invert(1); }
 .pin-chapel { background: #2c5282; } .pin-monument { background: #9b2c2c; } .pin-museum { background: #b7791f; } .pin-school { background: #276749; }
-
 .mobile-menu-btn, .mobile-close-btn, .sidebar-search-mobile { display: none; }
 #car-img { width: 100%; height: 100%; }

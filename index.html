@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Слуцк: Культурное наследие</title>
+    <title>Культурное наследие Слуцка</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
@@ -21,7 +21,6 @@
                 <h2 class="sub-title">ГОРОДА СЛУЦКА</h2>
             </div>
         </div>
-        <!-- Поиск только для ПК -->
         <div class="header-search-container">
             <input type="text" id="pcSearch" placeholder="Найти объект...">
         </div>
@@ -29,7 +28,6 @@
 </header>
 
 <main class="app">
-    <!-- Кнопка меню для мобильных -->
     <button id="toggleSidebar" class="mobile-menu-btn">☰ Список</button>
 
     <aside class="route-sidebar" id="sidebar">
@@ -38,7 +36,6 @@
             <button id="closeSidebar" class="mobile-close-btn">×</button>
         </div>
         
-        <!-- Поиск для мобильных -->
         <div class="sidebar-search-mobile">
             <input type="text" id="mobileSearch" placeholder="Поиск объекта...">
         </div>
@@ -59,20 +56,16 @@
         </div>
     </section>
 
-    <!-- Панель объекта (Только фото и видео) -->
     <aside class="details-panel" id="detailsPanel">
         <div class="drag-handle"></div>
         <button class="details-close" id="closeDetailsBtn">×</button>
         <h2 id="details-title"></h2>
-        
         <div class="details-gallery" id="details-gallery"></div>
-        
         <div class="video-main-container">
             <video id="details-video" controls playsinline webkit-playsinline preload="metadata"></video>
         </div>
     </aside>
 
-    <!-- Увеличение фото -->
     <div id="imageModal" class="image-zoom-modal">
         <span class="close-zoom" id="closeZoomBtn">&times;</span>
         <div class="nav-zone left" onclick="changeImage(-1)"><span>&#10094;</span></div>

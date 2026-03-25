@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    let followCar = false; // ПО УМОЛЧАНИЮ ВЫКЛЮЧЕНО
+    let followCar = false; 
     const map = L.map('map', { 
         attributionControl: false, 
         zoomSnap: 0.1,
@@ -9,7 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    const markersGroup = L.markerClusterGroup({ showCoverageOnHover: false, disableClusteringAtZoom: 13, spiderfyOnMaxZoom: true });
+    const markersGroup = L.markerClusterGroup({ 
+        showCoverageOnHover: false, 
+        disableClusteringAtZoom: 13, 
+        spiderfyOnMaxZoom: true 
+    });
     map.addLayer(markersGroup);
 
     const attractionsData = {
@@ -42,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // ИНИЦИАЛИЗАЦИЯ ТОЧЕК
     L.geoJSON(attractionsData, {
         pointToLayer: (f, latlng) => {
             const colorClass = getPinColor(f.properties.TYPE);
@@ -66,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('buildRoute').onclick = () => {
         if (selectedPoints.length < 2) return alert('Выберите хотя бы 2 объекта!');
         if (routingControl) map.removeControl(routingControl);
-        document.getElementById('sidebar').classList.remove('active');
+        sidebar.classList.remove('active');
 
         routingControl = L.Routing.control({
             waypoints: selectedPoints.map(p => p.latlng),
@@ -159,7 +164,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // ОБЩАЯ ФУНКЦИЯ ПОИСКА
     function filterList(searchValue) {
         const val = searchValue.toLowerCase();
         document.querySelectorAll('#route-list li').forEach(li => {
