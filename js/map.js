@@ -1,12 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    let followCar = false; // СЛЕЖЕНИЕ ВЫКЛЮЧЕНО ПО УМОЛЧАНИЮ
+    // 1. ИНИЦИАЛИЗАЦИЯ (Слежение ВЫКЛ по умолчанию)
+    let followCar = false; 
+
     const map = L.map('map', { attributionControl: false }).setView([53.0276, 27.5597], 14);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     const markersGroup = L.markerClusterGroup({ showCoverageOnHover: false, disableClusteringAtZoom: 13, spiderfyOnMaxZoom: true });
     map.addLayer(markersGroup);
 
+    // 2. ДАННЫЕ (ПОЛНЫЕ ОПИСАНИЯ)
     const attractionsData = {
         "type": "FeatureCollection",
         "features": [
@@ -20,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
             { "type": "Feature", "properties": { "ID": 8, "NAME": "Памятник Анастасии Слуцкой", "DESCRIPTION": "Памятник Анастасии Слуцкой в Слуцке – это дань памяти мужеству и отваге этой хрупкой физически, но крепкой духом девушки. Перед нами она предстаёт, держа в руках длинный меч, что говорит о готовности защищать свои земли от набегов врагов. Авторами проекта уникального памятника выступали скульптор Сергей Оганов и архитектор Сергей Багласов. Памятник Анастасии Слуцкой представлен в виде четырехметровой скульптуры, состоящей из двух элементов – камня и бронзы. Торжественное открытие монумента приурочили к 900-летию Слуцка.", "IMAGES_DIR": "images/monument_anastasia", "IMAGES_COUNT": 3, "VIDEO": "video/monument_anastasia.mp4", "TYPE": "monument" }, "geometry": { "type": "Point", "coordinates": [27.55522, 53.02768] } },
             { "type": "Feature", "properties": { "ID": 9, "NAME": "Краеведческий музей", "DESCRIPTION": "Слуцкий краеведческий музей расположен в Доме бывшего дворянского собрания, построенного в конце XVIII — начале XIX веков. Согласно источникам, первоначально оно было частным домом барона Фёдора Шталя (Сталя), который в 1797 году был назначен городничим в городе Слуцке. На сегодняшний день Слуцкий краеведческий музей имеет в наличии более 32 тыс. музейных предметов основного фонда. ", "IMAGES_DIR": "images/local_history_museum", "IMAGES_COUNT": 3, "VIDEO": "video/local_history_museum.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54690, 53.02375] } },
             { "type": "Feature", "properties": { "ID": 10, "NAME": "Бывшая почтовая станция", "DESCRIPTION": "Почтовая станция располагалась в великолепном здании начала XIX века. Его украшали белоснежные колонны, каменные наличники и карнизы. Внутри были просторные, светлые помещения с высокими потолками. Почтовая станция пережила революцию, Гражданскую и Великую Отечественную войны. Лишь в 1980-х она перебралась в новое здание, а старое заняли различные магазины, которые находятся там и сейчас.", "IMAGES_DIR": "images/post_office", "IMAGES_COUNT": 5, "VIDEO": "video/post_office.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54511, 53.02254] } },
-            { "type": "Feature", "properties": { "ID": 11, "NAME": "Духовное училище", "DESCRIPTION": "Духовное училище было построено в XIX веке. Это двухэтажное каменное здание в стиле классицизма. Из подлинных элементов декора сохранились строгое обрамление окон, угловые пилястры, межэтажный пояс и фронтоны, завершающие ризалиты. Здесь учились такие знаменитые религиозные деятели. В 1918 году училище было закрыто. После Великой Отечественной войны в нём открылся педагогический колледж. В настоящее время здание занимает медицинский колледж.", "IMAGES_DIR": "images/theological_school", "IMAGES_COUNT": 6, "VIDEO": "video/theological_school.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54584, 53.01792] } },
+            { "type": "Feature", "properties": { "ID": 11, "NAME": "Духовное училище", "DESCRIPTION": "Духовное училище было построено в XIX века. Это двухэтажное каменное здание в стиле классицизма. Из подлинных элементов декора сохранились строгое обрамление окон, угловые пилястры, межэтажный пояс и фронтоны, завершающие ризалиты. Здесь учились такие знаменитые религиозные деятели. В 1918 году училище было закрыто. После Великой Отечественной войны в нём открылся педагогический колледж. В настоящее время здание занимает медицинский колледж.", "IMAGES_DIR": "images/theological_school", "IMAGES_COUNT": 6, "VIDEO": "video/theological_school.mp4", "TYPE": "museum" }, "geometry": { "type": "Point", "coordinates": [27.54584, 53.01792] } },
             { "type": "Feature", "properties": { "ID": 12, "NAME": "Собор святого Михаила", "DESCRIPTION": "Церковь во имя Архистратига Михаила — единственное сохранившееся здание из многочисленных слуцких святынь и единственный дошедший до нас пример Слуцкой школы полесского деревянного церковного зодчества XVIII века, не имеющий прямых аналогов в Беларуси. Здание было двухсрубным, неокрашенным и покрыто гонтом. Все остальное выглядело так же, как и сегодня — и многоярусные объемы, венчаемые восьмигранными световыми барабанами с барочными куполами.", "IMAGES_DIR": "images/michael_cathedral", "IMAGES_COUNT": 3, "VIDEO": "video/michael_cathedral.mp4", "TYPE": "chapel" }, "geometry": { "type": "Point", "coordinates": [27.57840, 53.03068] } }
         ]
     };
@@ -29,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentIndex = 0, segmentProgress = 0, isPaused = false, isWaitingForClose = false, currentProps = null;
     let currentImgIdx = 1, lastPanTime = 0;
 
+    // ЦВЕТНЫЕ ПИНЫ
     function getPinColor(type) {
         switch(type) {
             case 'chapel': return 'pin-chapel'; case 'monument': return 'pin-monument';
@@ -66,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         routingControl = L.Routing.control({
             waypoints: selectedPoints.map(p => p.latlng),
             router: L.Routing.osrmv1({ serviceUrl: 'https://router.project-osrm.org/route/v1' }),
-            createMarker: () => null, addWaypoints: false, draggableWaypoints: false, show: false, 
+            createMarker: () => null, addWaypoints: false, draggableWaypoints: false, show: false,
             lineOptions: { styles: [{ color: '#440118', weight: 6, opacity: 0.7 }] }
         }).addTo(map);
 
@@ -87,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         animate();
     }
 
-    function animate(time) {
+    function animate() {
         if (!animationPoints.length || currentIndex >= animationPoints.length - 1) return;
         if (isPaused || isWaitingForClose) { requestAnimationFrame(animate); return; }
         const start = animationPoints[currentIndex], end = animationPoints[currentIndex + 1];
@@ -101,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const lng = start.lng + (end.lng - start.lng) * segmentProgress;
         const pos = [lat, lng];
         if (carMarker) carMarker.setLatLng(pos);
-        if (followCar && time - lastPanTime > 40) { map.panTo(pos, { animate: true, duration: 0.1 }); lastPanTime = time; }
+        if (followCar) map.panTo(pos, { animate: true, duration: 0.1 });
         requestAnimationFrame(animate);
     }
 
