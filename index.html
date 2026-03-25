@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Слуцк: Культурное наследие</title>
+    <title>Культурное наследие Слуцка</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -50,25 +51,17 @@
         </div>
     </section>
 
-    <!-- ПАНЕЛЬ ТЕПЕРЬ С ВИДЕО ВНУТРИ -->
     <aside class="details-panel" id="detailsPanel">
-        <div class="drag-handle"></div> <!-- Полоска для мобилок -->
+        <div class="drag-handle"></div>
         <button class="details-close" id="closeDetailsBtn">×</button>
-        
         <h2 id="details-title"></h2>
-        
         <div class="details-gallery" id="details-gallery"></div>
-
         <div class="video-inline-container">
             <video id="details-video" controls playsinline webkit-playsinline preload="auto"></video>
         </div>
-
-        <div class="details-text-box">
-            <p id="details-description"></p>
-        </div>
+        <div class="details-text-box"><p id="details-description"></p></div>
     </aside>
 
-    <!-- ЗУМ ФОТО ОСТАВЛЯЕМ -->
     <div id="imageModal" class="image-zoom-modal">
         <span class="close-zoom" id="closeZoomBtn">&times;</span>
         <div class="nav-zone left" onclick="changeImage(-1)"><span>&#10094;</span></div>
@@ -79,7 +72,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
 <script src="js/map.js"></script>
 
 </body>

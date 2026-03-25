@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1. ИНИЦИАЛИЗАЦИЯ (Слежение выключено по умолчанию)
-    let followCar = false; 
-
+    let followCar = false; // СЛЕЖЕНИЕ ВЫКЛЮЧЕНО ПО УМОЛЧАНИЮ
     const map = L.map('map', { attributionControl: false }).setView([53.0276, 27.5597], 14);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
@@ -68,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         routingControl = L.Routing.control({
             waypoints: selectedPoints.map(p => p.latlng),
             router: L.Routing.osrmv1({ serviceUrl: 'https://router.project-osrm.org/route/v1' }),
-            createMarker: () => null, addWaypoints: false, show: false,
+            createMarker: () => null, addWaypoints: false, draggableWaypoints: false, show: false, 
             lineOptions: { styles: [{ color: '#440118', weight: 6, opacity: 0.7 }] }
         }).addTo(map);
 
@@ -126,11 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
             img.onclick = () => openImageZoom(i);
             gallery.appendChild(img);
         }
-        
-        // ВСТРОЕННОЕ ВИДЕО
-        const video = document.getElementById('details-video');
-        video.src = props.VIDEO || "";
-        
+        document.getElementById('details-video').src = props.VIDEO || "";
         panel.classList.add('active');
         panel.querySelector('.details-text-box').scrollTop = 0;
     };
@@ -161,18 +155,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('#route-list li').forEach(li => { li.style.display = li.textContent.toLowerCase().includes(val) ? 'flex' : 'none'; });
     };
 
-    document.getElementById('closeDetailsBtn').onclick = () => { 
-        document.getElementById('details-video').pause();
-        document.getElementById('detailsPanel').classList.remove('active'); 
-        isWaitingForClose = false; 
-    };
+    document.getElementById('closeDetailsBtn').onclick = () => { document.getElementById('details-video').pause(); document.getElementById('detailsPanel').classList.remove('active'); isWaitingForClose = false; };
     document.getElementById('toggleSidebar').onclick = () => document.getElementById('sidebar').classList.add('active');
     document.getElementById('closeSidebar').onclick = () => document.getElementById('sidebar').classList.remove('active');
     document.getElementById('closeZoomBtn').onclick = () => document.getElementById('imageModal').style.display = 'none';
     document.getElementById('pauseCar').onclick = () => isPaused = !isPaused;
     document.getElementById('clearRoute').onclick = () => location.reload();
-    document.getElementById('followCar').onclick = (e) => { 
-        followCar = !followCar; 
-        e.target.textContent = `🎥 Слежение: ${followCar ? 'ВКЛ' : 'ВЫКЛ'}`; 
-    };
+    document.getElementById('followCar').onclick = (e) => { followCar = !followCar; e.target.textContent = `🎥 Слежение: ${followCar ? 'ВКЛ' : 'ВЫКЛ'}`; };
 });
