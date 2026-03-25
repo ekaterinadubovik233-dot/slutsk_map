@@ -3,8 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let followCar = false; 
     const map = L.map('map', { 
         attributionControl: false, 
-        zoomSnap: 0.1,
-        zoomAnimationThreshold: 10
+        zoomSnap: 0.1
     }).setView([53.0276, 27.5597], 14);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
@@ -36,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let carMarker = null, routingControl = null, selectedPoints = [], animationPoints = [], stops = [];
     let currentIndex = 0, segmentProgress = 0, isPaused = false, isWaitingForClose = false, currentProps = null;
-    let currentImgIdx = 1;
+    let currentImgIdx = 1, lastPanTime = 0;
 
     function getPinColor(type) {
         switch(type) {
@@ -46,13 +45,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ИНИЦИАЛИЗАЦИЯ ТОЧЕК
+    // РИСУЕМ ТОЧКИ И ДОБАВЛЯЕМ В ГРУППУ
     L.geoJSON(attractionsData, {
         pointToLayer: (f, latlng) => {
             const colorClass = getPinColor(f.properties.TYPE);
             const icon = L.divIcon({ className: 'custom-div-icon', html: `<div class="custom-pin ${colorClass}"><img src="img/icons/${f.properties.TYPE}.png"></div>`, iconSize: [36, 36], iconAnchor: [18, 36] });
             const m = L.marker(latlng, { icon: icon });
             m.bindTooltip(f.properties.NAME, { direction: 'top', offset: [0, -35] });
+            
+            m.on('click', () => window.openDetails(f.properties));
             return m;
         },
         onEachFeature: (f, layer) => {
@@ -63,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 else selectedPoints = selectedPoints.filter(p => p.properties.ID !== f.properties.ID);
             });
             document.getElementById('route-list').appendChild(li);
-            layer.on('click', () => window.openDetails(f.properties));
             markersGroup.addLayer(layer);
         }
     });
@@ -116,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         carMarker.setLatLng(pos);
         if (followCar) map.panTo(pos, { animate: true, duration: 0.1 });
-        
         requestAnimationFrame(animateStep);
     }
 
@@ -138,8 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
             img.onclick = () => openImageZoom(i);
             gallery.appendChild(img);
         }
-        const video = document.getElementById('details-video');
-        video.src = props.VIDEO || "";
+        document.getElementById('details-video').src = props.VIDEO || "";
         document.getElementById('detailsPanel').classList.add('active');
     };
 
