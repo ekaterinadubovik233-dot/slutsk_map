@@ -59,8 +59,8 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
 
 /* МОДАЛЬНОЕ ОКНО ФОТО */
 .image-zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; align-items: center; justify-content: center; }
-#fullImage { max-width: 95%; max-height: 85%; border: 2px solid white; }
-.nav-zone { position: absolute; top: 0; height: 100%; width: 30%; display: flex; align-items: center; justify-content: center; color: white; font-size: 50px; z-index: 10; cursor: pointer; }
+#fullImage { max-width: 95%; max-height: 85%; border: 2px solid white; touch-action: pan-y; /* Разрешаем свайпы */ }
+.nav-zone { position: absolute; top: 0; height: 100%; width: 30%; display: flex; align-items: center; justify-content: center; color: white; font-size: 50px; z-index: 10; cursor: pointer; user-select: none; }
 .nav-zone.left { left: 0; } .nav-zone.right { right: 0; }
 .close-zoom { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; z-index: 20; cursor: pointer; }
 
@@ -88,27 +88,26 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
     
     .route-sidebar { position: fixed; top: 0; left: -100%; width: 85%; height: 100%; z-index: 6000; transition: left 0.4s ease; }
     .route-sidebar.active { left: 0; }
-    .sidebar-header h3 { display: none; } /* Скрываем текст, оставляем крестик */
+    .sidebar-header h3 { display: none; }
     .mobile-close-btn { display: block !important; font-size: 40px; background: none; border: none; color: var(--primary); cursor: pointer; margin-left: auto; }
     
     .leaflet-control-zoom { display: none !important; }
     .map-controls { bottom: 20px; left: 0; width: 100%; justify-content: center; padding: 0 10px; }
     .map-controls button { flex: 1; padding: 15px 5px; font-size: 12px; }
 
-    /* --- ИСПРАВЛЕННАЯ ПАНЕЛЬ ДЛЯ МОБИЛЬНЫХ --- */
-    /* Теперь она привязана к низу экрана и просто меняет координату bottom */
+    /* ПАНЕЛЬ ПОДРОБНОСТЕЙ */
     .details-panel { 
         width: 100%; 
-        height: 85vh; 
+        height: auto; /* Позволяем панели подстраиваться под контент (убирает черное пространство) */
+        max-height: 85vh; /* Но не больше чем 85% экрана */
         right: 0; 
         top: auto; 
-        bottom: -100%; /* Скрыта за нижним краем экрана */
+        bottom: -100%; 
         border-radius: 30px 30px 0 0; 
         z-index: 7000; 
-        transition: bottom 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Плавное выезжание */
+        transition: bottom 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
     }
     
-    /* Когда панель активна, она поднимается к нулевой отметке низа */
     .details-panel.active { 
         bottom: 0; 
         right: 0;
@@ -116,5 +115,13 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
 
     .details-header { padding: 15px 20px; }
     .drag-handle { display: block; width: 50px; height: 6px; background: #ddd; border-radius: 10px; margin: 0 auto 15px; }
-    .details-close { display: block; top: 15px; right: 20px; } /* Крестик оставим для надежности */
+    .details-close { display: block; top: 15px; right: 20px; }
+
+    .details-content { overflow-y: auto; padding-bottom: 20px; } /* Скролл внутри если контента много */
+    
+    /* Убираем растягивание видео на мобилках */
+    .video-main-container { 
+        flex-grow: 0; 
+        height: auto; 
+    }
 }

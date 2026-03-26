@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     map.addLayer(markersGroup);
 
-    // Данные без аудио и текстов
     const attractionsData = {
         "type": "FeatureCollection",
         "features": [
@@ -46,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Отрисовка точек
     L.geoJSON(attractionsData, {
         pointToLayer: (f, latlng) => {
             const colorClass = getPinColor(f.properties.TYPE);
@@ -72,8 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('buildRoute').onclick = () => {
         if (selectedPoints.length < 2) return alert('Выберите хотя бы 2 объекта!');
         if (routingControl) map.removeControl(routingControl);
-        
-        // Скрываем меню на мобильном при построении маршрута
         document.getElementById('sidebar').classList.remove('active');
 
         routingControl = L.Routing.control({
@@ -129,12 +125,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return index;
     }
 
-    // ОТКРЫТИЕ ПАНЕЛИ
     window.openDetails = function(props) {
         currentProps = props;
         document.getElementById('details-title').textContent = props.NAME;
         
-        // Галерея
         const gallery = document.getElementById('details-gallery');
         gallery.innerHTML = '';
         for (let i = 1; i <= (props.IMAGES_COUNT || 0); i++) {
@@ -145,11 +139,11 @@ document.addEventListener('DOMContentLoaded', function() {
             gallery.appendChild(img);
         }
 
-        // Видео
         const videoBox = document.getElementById('video-box');
         const videoEl = document.getElementById('details-video');
         if (props.VIDEO) {
             videoEl.src = props.VIDEO;
+            videoEl.load(); // Принудительно заставляем браузер начать загрузку
             videoBox.style.display = 'block';
         } else {
             videoEl.pause();
@@ -159,14 +153,12 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('detailsPanel').classList.add('active');
     };
 
-    // ФУНКЦИЯ ЗАКРЫТИЯ ПАНЕЛИ (Возобновляет маршрут)
     function closeDetailsPanel() {
         document.getElementById('details-video').pause();
         document.getElementById('detailsPanel').classList.remove('active'); 
-        isWaitingForClose = false; // Разрешаем машине ехать дальше
+        isWaitingForClose = false; 
     }
 
-    // ЗУМ ФОТО
     function openImageZoom(idx) {
         currentImgIdx = idx;
         document.getElementById('fullImage').src = `${currentProps.IMAGES_DIR}/${currentImgIdx}.jpg`;
@@ -188,7 +180,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // СОБЫТИЯ ИНТЕРФЕЙСА
+    // --- СВАЙПЫ ДЛЯ ФОТОГРАФИЙ (МОДАЛЬНОЕ ОКНО) ---
+    let touchStartX = 0;
+    const imageModal = document.getElementById('imageModal');
+    
+    imageModal.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    imageModal.addEventListener('touchend', e => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const swipeDistance = touchStartX - touchEndX;
+        
+        // Если провели влево или вправо больше чем на 40px
+        if (Math.abs(swipeDistance) > 40) {
+            if (swipeDistance > 0) {
+                changeImage(1); // Свайп влево -> следующая фотка
+            } else {
+                changeImage(-1); // Свайп вправо -> предыдущая фотка
+            }
+        }
+    }, {passive: true});
+
     document.getElementById('pcSearch').oninput = (e) => {
         const val = e.target.value.toLowerCase();
         document.querySelectorAll('#route-list li').forEach(li => { li.style.display = li.textContent.toLowerCase().includes(val) ? 'flex' : 'none'; });
@@ -198,10 +211,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('toggleSidebar').onclick = () => sidebar.classList.add('active');
     document.getElementById('closeSidebar').onclick = () => sidebar.classList.remove('active');
     
-    // Закрытие панели информации на крестик
     document.getElementById('closeDetailsBtn').onclick = closeDetailsPanel;
-    
     document.getElementById('closeZoomBtn').onclick = () => document.getElementById('imageModal').style.display = 'none';
+    
     document.getElementById('pauseCar').onclick = () => isPaused = !isPaused;
     document.getElementById('clearRoute').onclick = () => location.reload();
     document.getElementById('followCar').onclick = (e) => { 
@@ -209,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.target.textContent = `🎥 Слежение: ${followCar ? 'ВКЛ' : 'ВЫКЛ'}`; 
     };
 
-    // ДОПОЛНИТЕЛЬНО: Свайп вниз для мобильной версии, чтобы было удобно закрывать
+    // --- СВАЙП ВНИЗ ДЛЯ ЗАКРЫТИЯ ПАНЕЛИ ---
     let touchStartY = 0;
     const detailsHeader = document.getElementById('detailsHeader');
     
@@ -219,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     detailsHeader.addEventListener('touchend', e => {
         const touchEndY = e.changedTouches[0].screenY;
-        if (touchEndY - touchStartY > 50) { // Свайп вниз
+        if (touchEndY - touchStartY > 50) { 
             closeDetailsPanel();
         }
     }, {passive: true});
