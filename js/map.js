@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     map.addLayer(markersGroup);
 
+    // Данные без аудио и текстов
     const attractionsData = {
         "type": "FeatureCollection",
         "features": [
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let carMarker = null, routingControl = null, selectedPoints = [], animationPoints = [], stops = [];
     let currentIndex = 0, segmentProgress = 0, isPaused = false, isWaitingForClose = false, currentProps = null;
-    let currentImgIdx = 1, lastPanTime = 0;
+    let currentImgIdx = 1;
 
     function getPinColor(type) {
         switch(type) {
@@ -45,11 +46,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ИНИЦИАЛИЗАЦИЯ ТОЧЕК
+    // Отрисовка точек
     L.geoJSON(attractionsData, {
         pointToLayer: (f, latlng) => {
             const colorClass = getPinColor(f.properties.TYPE);
-            const icon = L.divIcon({ className: 'custom-div-icon', html: `<div class="custom-pin ${colorClass}"><img src="img/icons/${f.properties.TYPE}.png"></div>`, iconSize: [38, 38], iconAnchor: [19, 38] });
+            const iconHTML = `<div class="custom-pin ${colorClass}"><img src="img/icons/${f.properties.TYPE}.png" onerror="this.style.display='none'"></div>`;
+            const icon = L.divIcon({ className: 'custom-div-icon', html: iconHTML, iconSize: [38, 38], iconAnchor: [19, 38] });
             const m = L.marker(latlng, { icon: icon });
             m.bindTooltip(f.properties.NAME, { direction: 'top', offset: [0, -35] });
             return m;
@@ -70,6 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('buildRoute').onclick = () => {
         if (selectedPoints.length < 2) return alert('Выберите хотя бы 2 объекта!');
         if (routingControl) map.removeControl(routingControl);
+        
+        // Скрываем меню на мобильном при построении маршрута
         document.getElementById('sidebar').classList.remove('active');
 
         routingControl = L.Routing.control({
@@ -91,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function startCarAnimation() {
         if (carMarker) map.removeLayer(carMarker);
         carMarker = L.marker([animationPoints[0].lat, animationPoints[0].lng], {
-            icon: L.divIcon({ className: 'car-icon-container', html: `<img src="img/car.png" id="car-img" style="width:36px;height:36px;">`, iconSize: [36, 36], iconAnchor: [18, 18] })
+            icon: L.divIcon({ className: 'car-icon-container', html: `<img src="img/car.png" id="car-img" style="width:36px;height:36px;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3204/3204914.png'">`, iconSize: [36, 36], iconAnchor: [18, 18] })
         }).addTo(map);
         requestAnimationFrame(animateStep);
     }
@@ -125,9 +129,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return index;
     }
 
+    // ОТКРЫТИЕ ПАНЕЛИ
     window.openDetails = function(props) {
         currentProps = props;
         document.getElementById('details-title').textContent = props.NAME;
+        
+        // Галерея
         const gallery = document.getElementById('details-gallery');
         gallery.innerHTML = '';
         for (let i = 1; i <= (props.IMAGES_COUNT || 0); i++) {
@@ -137,11 +144,29 @@ document.addEventListener('DOMContentLoaded', function() {
             img.onclick = () => openImageZoom(i);
             gallery.appendChild(img);
         }
-        const video = document.getElementById('details-video');
-        video.src = props.VIDEO || "";
+
+        // Видео
+        const videoBox = document.getElementById('video-box');
+        const videoEl = document.getElementById('details-video');
+        if (props.VIDEO) {
+            videoEl.src = props.VIDEO;
+            videoBox.style.display = 'block';
+        } else {
+            videoEl.pause();
+            videoBox.style.display = 'none';
+        }
+
         document.getElementById('detailsPanel').classList.add('active');
     };
 
+    // ФУНКЦИЯ ЗАКРЫТИЯ ПАНЕЛИ (Возобновляет маршрут)
+    function closeDetailsPanel() {
+        document.getElementById('details-video').pause();
+        document.getElementById('detailsPanel').classList.remove('active'); 
+        isWaitingForClose = false; // Разрешаем машине ехать дальше
+    }
+
+    // ЗУМ ФОТО
     function openImageZoom(idx) {
         currentImgIdx = idx;
         document.getElementById('fullImage').src = `${currentProps.IMAGES_DIR}/${currentImgIdx}.jpg`;
@@ -163,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // СОБЫТИЯ ИНТЕРФЕЙСА
     document.getElementById('pcSearch').oninput = (e) => {
         const val = e.target.value.toLowerCase();
         document.querySelectorAll('#route-list li').forEach(li => { li.style.display = li.textContent.toLowerCase().includes(val) ? 'flex' : 'none'; });
@@ -171,7 +197,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.getElementById('sidebar');
     document.getElementById('toggleSidebar').onclick = () => sidebar.classList.add('active');
     document.getElementById('closeSidebar').onclick = () => sidebar.classList.remove('active');
-    document.getElementById('closeDetailsBtn').onclick = () => { document.getElementById('details-video').pause(); document.getElementById('detailsPanel').classList.remove('active'); isWaitingForClose = false; };
+    
+    // Закрытие панели информации на крестик
+    document.getElementById('closeDetailsBtn').onclick = closeDetailsPanel;
+    
     document.getElementById('closeZoomBtn').onclick = () => document.getElementById('imageModal').style.display = 'none';
     document.getElementById('pauseCar').onclick = () => isPaused = !isPaused;
     document.getElementById('clearRoute').onclick = () => location.reload();
@@ -179,4 +208,19 @@ document.addEventListener('DOMContentLoaded', function() {
         followCar = !followCar; 
         e.target.textContent = `🎥 Слежение: ${followCar ? 'ВКЛ' : 'ВЫКЛ'}`; 
     };
+
+    // ДОПОЛНИТЕЛЬНО: Свайп вниз для мобильной версии, чтобы было удобно закрывать
+    let touchStartY = 0;
+    const detailsHeader = document.getElementById('detailsHeader');
+    
+    detailsHeader.addEventListener('touchstart', e => {
+        touchStartY = e.changedTouches[0].screenY;
+    }, {passive: true});
+
+    detailsHeader.addEventListener('touchend', e => {
+        const touchEndY = e.changedTouches[0].screenY;
+        if (touchEndY - touchStartY > 50) { // Свайп вниз
+            closeDetailsPanel();
+        }
+    }, {passive: true});
 });

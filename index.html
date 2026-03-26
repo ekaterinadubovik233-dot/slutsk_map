@@ -52,13 +52,19 @@
         </div>
     </section>
 
+    <!-- Панель подробностей -->
     <aside class="details-panel" id="detailsPanel">
-        <div class="drag-handle"></div>
-        <button class="details-close" id="closeDetailsBtn">×</button>
-        <h2 id="details-title"></h2>
-        <div class="details-gallery" id="details-gallery"></div>
-        <div class="video-main-container">
-            <video id="details-video" controls playsinline webkit-playsinline preload="metadata"></video>
+        <div class="details-header" id="detailsHeader">
+            <div class="drag-handle"></div>
+            <button class="details-close" id="closeDetailsBtn">×</button>
+            <h2 id="details-title"></h2>
+        </div>
+        
+        <div class="details-content">
+            <div class="details-gallery" id="details-gallery"></div>
+            <div class="video-main-container" id="video-box" style="display: none;">
+                <video id="details-video" controls playsinline webkit-playsinline preload="metadata"></video>
+            </div>
         </div>
     </aside>
 
