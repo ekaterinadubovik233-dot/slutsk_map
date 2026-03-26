@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const map = L.map('map', { 
         attributionControl: false, 
         zoomSnap: 0.1
-    }).setView([53.0276, 27.5597], 14);
+    });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
@@ -62,10 +62,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 else selectedPoints = selectedPoints.filter(p => p.properties.ID !== f.properties.ID);
             });
             document.getElementById('route-list').appendChild(li);
-            layer.on('click', () => window.openDetails(f.properties));
+            
+            // ПЕРЕДАЕМ КООРДИНАТЫ ПРИ КЛИКЕ ДЛЯ АВТО-ПРИБЛИЖЕНИЯ
+            layer.on('click', () => window.openDetails(f.properties, layer.getLatLng()));
             markersGroup.addLayer(layer);
         }
     });
+
+    // АВТОМАТИЧЕСКОЕ ЦЕНТРИРОВАНИЕ КАРТЫ ПОСЛЕ ЗАГРУЗКИ ТОЧЕК
+    map.fitBounds(markersGroup.getBounds(), { padding: [20, 20] });
 
     document.getElementById('buildRoute').onclick = () => {
         if (selectedPoints.length < 2) return alert('Выберите хотя бы 2 объекта!');
@@ -81,9 +86,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         routingControl.on('routesfound', (e) => {
             animationPoints = e.routes[0].coordinates;
-            stops = selectedPoints.map(p => ({ index: findClosestIndex(animationPoints, p.latlng), properties: p.properties })).sort((a, b) => a.index - b.index);
+            stops = selectedPoints.map(p => ({ 
+                index: findClosestIndex(animationPoints, p.latlng), 
+                properties: p.properties,
+                latlng: p.latlng // Сохраняем координаты для камеры
+            })).sort((a, b) => a.index - b.index);
+            
             currentIndex = 0; segmentProgress = 0; isWaitingForClose = true;
-            window.openDetails(stops[0].properties);
+            window.openDetails(stops[0].properties, stops[0].latlng);
             startCarAnimation();
         });
     };
@@ -106,7 +116,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (segmentProgress >= 1) {
             segmentProgress = 0; currentIndex++;
             const stop = stops.find(s => s.index === currentIndex);
-            if (stop) { isWaitingForClose = true; window.openDetails(stop.properties); }
+            if (stop) { 
+                isWaitingForClose = true; 
+                window.openDetails(stop.properties, stop.latlng); 
+            }
         }
 
         const lat = start.lat + (end.lat - start.lat) * segmentProgress;
@@ -125,7 +138,8 @@ document.addEventListener('DOMContentLoaded', function() {
         return index;
     }
 
-    window.openDetails = function(props) {
+    // ИЗМЕНЕНА ФУНКЦИЯ (ДОБАВЛЕНО УПРАВЛЕНИЕ КАМЕРОЙ)
+    window.openDetails = function(props, latlng) {
         currentProps = props;
         document.getElementById('details-title').textContent = props.NAME;
         
@@ -143,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const videoEl = document.getElementById('details-video');
         if (props.VIDEO) {
             videoEl.src = props.VIDEO;
-            videoEl.load(); // Принудительно заставляем браузер начать загрузку
+            videoEl.load(); 
             videoBox.style.display = 'block';
         } else {
             videoEl.pause();
@@ -151,6 +165,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         document.getElementById('detailsPanel').classList.add('active');
+
+        // ЭФФЕКТНЫЙ ПОЛЕТ КАМЕРЫ К ОБЪЕКТУ
+        if (latlng) {
+            let targetLat = latlng.lat;
+            let targetLng = latlng.lng;
+            
+            // Если это мобилка, панель закроет половину экрана. 
+            // Мы "сдвигаем" центр вниз, чтобы пин оказался ровно на видимом куске карты.
+            if (window.innerWidth <= 768) {
+                targetLat -= 0.003; 
+            } else {
+                // На ПК панель выезжает справа, поэтому сдвигаем карту вправо
+                targetLng += 0.006; 
+            }
+            map.flyTo([targetLat, targetLng], 16, { animate: true, duration: 1 });
+        }
     };
 
     function closeDetailsPanel() {
@@ -180,7 +210,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- СВАЙПЫ ДЛЯ ФОТОГРАФИЙ (МОДАЛЬНОЕ ОКНО) ---
     let touchStartX = 0;
     const imageModal = document.getElementById('imageModal');
     
@@ -191,14 +220,9 @@ document.addEventListener('DOMContentLoaded', function() {
     imageModal.addEventListener('touchend', e => {
         const touchEndX = e.changedTouches[0].screenX;
         const swipeDistance = touchStartX - touchEndX;
-        
-        // Если провели влево или вправо больше чем на 40px
         if (Math.abs(swipeDistance) > 40) {
-            if (swipeDistance > 0) {
-                changeImage(1); // Свайп влево -> следующая фотка
-            } else {
-                changeImage(-1); // Свайп вправо -> предыдущая фотка
-            }
+            if (swipeDistance > 0) changeImage(1);
+            else changeImage(-1);
         }
     }, {passive: true});
 
@@ -210,18 +234,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.getElementById('sidebar');
     document.getElementById('toggleSidebar').onclick = () => sidebar.classList.add('active');
     document.getElementById('closeSidebar').onclick = () => sidebar.classList.remove('active');
-    
     document.getElementById('closeDetailsBtn').onclick = closeDetailsPanel;
     document.getElementById('closeZoomBtn').onclick = () => document.getElementById('imageModal').style.display = 'none';
     
-    document.getElementById('pauseCar').onclick = () => isPaused = !isPaused;
+    // ИЗМЕНЕНА ЛОГИКА КНОПКИ ПАУЗА / ПУСК
+    document.getElementById('pauseCar').onclick = (e) => { 
+        isPaused = !isPaused; 
+        e.target.textContent = isPaused ? 'Пуск' : 'Пауза'; 
+    };
+    
     document.getElementById('clearRoute').onclick = () => location.reload();
+    
+    // ИЗМЕНЕНА ЛОГИКА КНОПКИ СЛЕЖЕНИЕ
     document.getElementById('followCar').onclick = (e) => { 
         followCar = !followCar; 
-        e.target.textContent = `🎥 Слежение: ${followCar ? 'ВКЛ' : 'ВЫКЛ'}`; 
+        e.target.textContent = `Слежение: ${followCar ? 'ВКЛ' : 'ВЫКЛ'}`; 
     };
 
-    // --- СВАЙП ВНИЗ ДЛЯ ЗАКРЫТИЯ ПАНЕЛИ ---
     let touchStartY = 0;
     const detailsHeader = document.getElementById('detailsHeader');
     

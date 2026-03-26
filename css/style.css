@@ -50,16 +50,17 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
 .details-close { position: absolute; top: 10px; right: 10px; font-size: 35px; background: none; border: none; cursor: pointer; color: #ccc; }
 #details-title { margin: 0; color: var(--primary); font-size: 1.4rem; }
 
-.details-content { padding: 0 25px 25px 25px; flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
-.details-gallery { display: flex; gap: 10px; overflow-x: auto; width: 100%; padding-bottom: 10px; margin-bottom: 15px; }
+.details-content { padding: 0 25px 25px 25px; flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; gap: 15px; }
+.details-gallery { display: flex; gap: 10px; overflow-x: auto; width: 100%; padding-bottom: 10px; }
 .details-gallery img { height: 100px; border-radius: 12px; flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; }
 
-.video-main-container { width: 100%; flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #000; border-radius: 12px; overflow: hidden; }
-#details-video { width: 100%; height: auto; max-height: 100%; }
+/* ИСПРАВЛЕННЫЙ КОНТЕЙНЕР ВИДЕО (БОЛЬШЕ НЕТ ЧЕРНЫХ ДЫР) */
+.video-main-container { width: 100%; display: flex; align-items: center; justify-content: center; background: #000; border-radius: 12px; overflow: hidden; flex-shrink: 0; }
+#details-video { width: 100%; height: auto; display: block; }
 
 /* МОДАЛЬНОЕ ОКНО ФОТО */
 .image-zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; align-items: center; justify-content: center; }
-#fullImage { max-width: 95%; max-height: 85%; border: 2px solid white; touch-action: pan-y; /* Разрешаем свайпы */ }
+#fullImage { max-width: 95%; max-height: 85%; border: 2px solid white; touch-action: pan-y; }
 .nav-zone { position: absolute; top: 0; height: 100%; width: 30%; display: flex; align-items: center; justify-content: center; color: white; font-size: 50px; z-index: 10; cursor: pointer; user-select: none; }
 .nav-zone.left { left: 0; } .nav-zone.right { right: 0; }
 .close-zoom { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; z-index: 20; cursor: pointer; }
@@ -98,8 +99,8 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
     /* ПАНЕЛЬ ПОДРОБНОСТЕЙ */
     .details-panel { 
         width: 100%; 
-        height: auto; /* Позволяем панели подстраиваться под контент (убирает черное пространство) */
-        max-height: 85vh; /* Но не больше чем 85% экрана */
+        height: auto; 
+        max-height: 85vh; 
         right: 0; 
         top: auto; 
         bottom: -100%; 
@@ -116,12 +117,5 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); }
     .details-header { padding: 15px 20px; }
     .drag-handle { display: block; width: 50px; height: 6px; background: #ddd; border-radius: 10px; margin: 0 auto 15px; }
     .details-close { display: block; top: 15px; right: 20px; }
-
-    .details-content { overflow-y: auto; padding-bottom: 20px; } /* Скролл внутри если контента много */
-    
-    /* Убираем растягивание видео на мобилках */
-    .video-main-container { 
-        flex-grow: 0; 
-        height: auto; 
-    }
+    .details-content { overflow-y: auto; padding-bottom: 20px; }
 }
