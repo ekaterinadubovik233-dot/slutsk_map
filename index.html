@@ -164,7 +164,6 @@
 
     <section class="map-wrapper">
         <div id="map"></div>
-        <!-- КНОПКИ СКРЫТЫ ИЗНАЧАЛЬНО -->
         <div class="map-controls" id="mapControls">
             <button id="pauseCar">Пауза</button>
             <button id="followCar">Слежение: ВЫКЛ</button>
@@ -182,6 +181,7 @@
         <div class="details-content">
             <div class="details-gallery" id="details-gallery"></div>
             <div class="video-main-container" id="video-box" style="display: none;">
+                <!-- Специальные теги для iPhone, чтобы видео проигрывалось внутри страницы -->
                 <video id="details-video" controls playsinline webkit-playsinline preload="metadata"></video>
             </div>
         </div>
@@ -204,13 +204,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let followCar = false; 
     
-    // 1. ИДЕАЛЬНОЕ ЦЕНТРИРОВАНИЕ ПРИ СТАРТЕ КАК ВЫ ПРОСИЛИ
     const map = L.map('map', { 
         attributionControl: false, 
         zoomSnap: 0.1
     }).setView([53.0265, 27.5550], 14.5); 
 
-    // 2. БЕЗОПАСНАЯ И КРАСИВАЯ КАРТА CARTODB (Не блокирует локальные файлы!)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         crossOrigin: true
     }).addTo(map);
@@ -279,7 +277,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (routingControl) map.removeControl(routingControl);
         document.getElementById('sidebar').classList.remove('active');
 
-        // ПОЯВЛЯЮТСЯ КНОПКИ ПУСК/ПАУЗА
         document.getElementById('mapControls').style.display = 'flex';
 
         routingControl = L.Routing.control({
@@ -370,13 +367,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.getElementById('detailsPanel').classList.add('active');
 
-        // ИСПРАВЛЕННЫЙ СДВИГ КАМЕРЫ ДЛЯ ТЕЛЕФОНА (Пин будет ниже, не упираясь в верх)
+        // ИСПРАВЛЕННЫЙ СДВИГ: ТЕПЕРЬ ПИН БУДЕТ В ЦЕНТРЕ СВОБОДНОЙ ЗОНЫ ВНИЗУ
         if (latlng) {
             let targetLat = latlng.lat;
             let targetLng = latlng.lng;
             
             if (window.innerWidth <= 768) {
-                targetLat -= 0.0012; // Меньший сдвиг = пин будет ровно в центре свободной зоны
+                targetLat += 0.0025; // Сдвигаем карту вверх, чтобы пин опустился вниз!
             } else {
                 targetLng += 0.006; 
             }
