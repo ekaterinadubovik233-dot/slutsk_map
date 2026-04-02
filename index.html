@@ -164,6 +164,7 @@
 
     <section class="map-wrapper">
         <div id="map"></div>
+        <!-- КНОПКИ СКРЫТЫ ИЗНАЧАЛЬНО -->
         <div class="map-controls" id="mapControls">
             <button id="pauseCar">Пауза</button>
             <button id="followCar">Слежение: ВЫКЛ</button>
@@ -181,7 +182,7 @@
         <div class="details-content">
             <div class="details-gallery" id="details-gallery"></div>
             <div class="video-main-container" id="video-box" style="display: none;">
-                <!-- Специальные теги для iPhone, чтобы видео проигрывалось внутри страницы -->
+                <!-- Специальные теги для iPhone -->
                 <video id="details-video" controls playsinline webkit-playsinline preload="metadata"></video>
             </div>
         </div>
@@ -367,13 +368,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.getElementById('detailsPanel').classList.add('active');
 
-        // ИСПРАВЛЕННЫЙ СДВИГ: ТЕПЕРЬ ПИН БУДЕТ В ЦЕНТРЕ СВОБОДНОЙ ЗОНЫ ВНИЗУ
+        // ЗОЛОТАЯ СЕРЕДИНА: ПИН ИДЕАЛЬНО В ЦЕНТРЕ
         if (latlng) {
             let targetLat = latlng.lat;
             let targetLng = latlng.lng;
             
             if (window.innerWidth <= 768) {
-                targetLat += 0.0025; // Сдвигаем карту вверх, чтобы пин опустился вниз!
+                targetLat -= 0.0015; // Возвращаем минус, чтобы пин не прятался под окном
             } else {
                 targetLng += 0.006; 
             }
